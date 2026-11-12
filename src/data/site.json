@@ -2,14 +2,6 @@
  "today": "2026-12-15",
  "shipping_from_usd": 18,
  "restock_conversion": 0.35,
- "orders_6d": [
-  212,
-  198,
-  240,
-  225,
-  251,
-  236
- ],
  "clicks": {
   "banner": 2310,
   "poster": 860
@@ -263,6 +255,38 @@
      "en": "Entering stock automatically updates badges and purchase buttons in the shop."
     }
    ]
+  }
+ ],
+ "pos": [
+  {
+   "id": "PO-1205-01",
+   "pid": "ateez_album_2",
+   "opt": 0,
+   "qty": 1500,
+   "date": "2026-12-05",
+   "eta": "2027-01-15",
+   "status": "confirmed",
+   "note": "예약 1차 발주"
+  },
+  {
+   "id": "PO-1201-01",
+   "pid": "ateez_tour_4",
+   "opt": 0,
+   "qty": 200,
+   "date": "2026-12-01",
+   "eta": "2026-12-16",
+   "status": "confirmed",
+   "note": "재입고 발주"
+  },
+  {
+   "id": "PO-1215-01",
+   "pid": "ateez_md_1",
+   "opt": 0,
+   "qty": 500,
+   "date": "2026-12-15",
+   "eta": "",
+   "status": "draft",
+   "note": "자동 계산: 예약 누계 420 × 110% = 462 → 최소 발주 500"
   }
  ]
 }

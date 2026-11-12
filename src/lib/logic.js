@@ -9,6 +9,10 @@ export const makeT = (copy) => (k, v = {}) => {
 export const dual = (ko, en) => `<span class="ko">${esc(ko)}</span><span class="en">${esc(en)}</span>`;
 export const price = (p) => `<span class="kr">₩${p.price_krw.toLocaleString('en-US')}</span><span class="intl">$${p.price_usd.toFixed(2)}</span>`;
 
+// 옵션 코드(SKU): 쇼핑몰·관리자·ERP 공통 키
+const PFX = { album: 'AL', md: 'MD', tour: 'TR', photo: 'PB', sg: 'SG', member: 'MB' };
+export const sku = (p, j = 0) => { const [, c, n] = p.id.split('_'); return `${PFX[c] || c.toUpperCase()}${n}${p.options.length > 1 ? '-' + p.options[j].split(' ')[0] : ''}`; };
+
 export const stocks = (p, st) => st?.stock?.[p.id] ?? p.stock;
 export const total = (p, st) => stocks(p, st).reduce((a, b) => a + b, 0);
 export const lowAt = (p, st) => st?.low?.[p.id] ?? p.low_stock_at;

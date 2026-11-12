@@ -1,128 +1,102 @@
 ---
+// 관리자 데모 (한글 전용 · PC·패드 기준 · 쇼핑몰 헤더·하단 없음)
 import Base from '../layouts/Base.astro';
-import { copy } from '../lib/data.js';
-import { makeT } from '../lib/logic.js';
-const T = makeT(copy);
-const menu = [['a.m1', 'dash'], ['a.m2', 'stock'], ['a.m3', 'restock']];
+import { orders } from '../lib/data.js';
+const menu = [['dash', '① 대시보드'], ['flow', '② 주문 흐름 · 자동화'], ['stock', '③ 상품 · 재고'], ['po', '④ 발주 · 입고'], ['erp', '⑤ ERP 연동 도식']];
+const box = 'rounded-lg border border-neutral-300 bg-white p-3';
+const erp = [
+  ['A 기준 정보', '상품 옵션 코드 · 해외 파트너 · 고객. 1곳 수정 → 전체 반영'],
+  ['B 재고', '가용 · 예약 할당 · 출고 대기 · 불량'],
+  ['C 구매 · 발주', '발주 · 입고 예정 · 입고 완료'],
+  ['D 판매 · 출고', '주문 → 피킹 → 송장 → 배송'],
+  ['E 회계', '결제 = 매출 / 예약 = 선수금, 발송 시 매출 인식'],
+  ['F 반품 · 교환', '불량 재고 이동 · 환불'],
+];
+const links = [
+  ['주문 결제', 'B 가용 −, 출고 대기 + / E 매출', '쇼핑몰 딱지 · ① 대시보드', 'R1'],
+  ['예약 주문', 'B 예약 할당 + / E 선수금', '④ 예약 누계', 'R1'],
+  ['재고 기준 이하', 'C 발주서 초안', '④ 발주 확정 대기', 'R5'],
+  ['발주 · 입고 검수', 'C 입고 완료 → B 가용 +', '품절 해제 · 재입고 알림 발송', 'R6'],
+  ['출고 · 송장', 'D 배송 상태 / B 출고 대기 −', '배송 알림 · 주소 변경 잠금', 'R2·R3'],
+  ['수령 · 정산', 'D 수령 / E 정산 집계', '② 정산 완료', 'R4·R7'],
+  ['반품 · 불량', 'F → B 불량 + / E 환불', '③ 불량 수량', '승인'],
+];
 ---
-<Base title="Admin | KQ MD SHOP" bare>
-  <div class="wrap mt-6 lg:grid lg:grid-cols-[200px_1fr] lg:gap-10">
-    <aside class="lg:sticky lg:top-6 lg:self-start">
-      <p class="text-xs font-bold tracking-[.2em] text-neutral-500">ADMIN</p>
-      <h1 class="text-2xl font-black" set:html={T('a.title')} />
-      <nav class="mt-4 flex gap-4 overflow-x-auto whitespace-nowrap text-sm font-bold lg:flex-col lg:gap-3">
-        {menu.map(([k, id]) => <a href={`#${id}`} class="hover:underline" set:html={T(k)} />)}
-      </nav>
-      <p class="mt-4 text-xs leading-relaxed text-neutral-500" set:html={T('a.note')} />
-      <div class="mt-3 flex gap-2 lg:flex-col">
-        <button type="button" id="a-reset" class="btn btn-line !h-9 !px-3 text-sm" set:html={T('a.reset')} />
-        <a href="/artist/ateez/" target="_blank" rel="noopener" class="btn btn-ink !h-9 !px-3 text-sm" set:html={T('a.toshop')} />
-      </div>
-    </aside>
-    <div class="mt-8 min-w-0 space-y-14 lg:mt-0">
-      <section id="dash" class="scroll-mt-20"><h2 class="text-lg font-bold" set:html={T('a.m1')} /><div id="a-dash" class="mt-4"></div></section>
-      <section id="stock" class="scroll-mt-20">
-        <div class="flex flex-wrap items-center gap-2">
-          <h2 class="mr-auto text-lg font-bold" set:html={T('a.m2')} />
-          <button type="button" id="a-down" class="btn btn-line !h-9 !px-3 text-sm" set:html={T('a.csv.down')} />
-          <label class="btn btn-line !h-9 !px-3 text-sm cursor-pointer"><Fragment set:html={T('a.csv.up')} /><input id="a-up" type="file" accept=".csv,text/csv" class="hidden" /></label>
+<Base title="Admin | KQ MD SHOP" bare extra={{ orders }}>
+  <div class="min-h-screen bg-neutral-100">
+    <p class="bg-neutral-900 px-4 py-2 text-center text-xs text-white">가공 데이터 시연 · 실제 결제·택배사·ERP 미연결 · 입력값은 이 브라우저에만 저장되며 매일 초기화됩니다</p>
+    <div class="wrap py-6 lg:grid lg:grid-cols-[210px_1fr] lg:gap-8">
+      <aside class="lg:sticky lg:top-6 lg:self-start">
+        <p class="text-xs font-bold tracking-[.2em] text-neutral-500">KQ MD SHOP</p>
+        <h1 class="text-2xl font-black">ADMIN</h1>
+        <nav class="mt-4 flex gap-4 overflow-x-auto whitespace-nowrap text-sm font-bold lg:flex-col lg:gap-3">
+          {menu.map(([id, t]) => <a href={`#${id}`} class="hover:underline">{t}</a>)}
+        </nav>
+        <div class="mt-5 flex gap-2 lg:flex-col">
+          <button type="button" id="a-reset" class="btn btn-line !h-9 !px-3 text-sm">초기화</button>
+          <a href="/artist/ateez/" target="_blank" rel="noopener" class="btn btn-ink !h-9 !px-3 text-sm">샵에서 확인</a>
         </div>
-        <p class="mt-2 text-xs leading-relaxed text-neutral-500" set:html={T('a.stock.note')} />
-        <div id="a-stock" class="mt-3 overflow-x-auto"></div>
-      </section>
-      <section id="restock" class="scroll-mt-20"><h2 class="text-lg font-bold" set:html={T('a.m3')} /><div id="a-restock" class="mt-3"></div></section>
+        <p class="mt-4 hidden text-xs leading-relaxed text-neutral-500 lg:block">
+          <span class="inline-block rounded bg-emerald-100 px-1.5 py-0.5 font-bold text-emerald-800">자동</span> 전산이 처리<br />
+          <span class="mt-1 inline-block rounded bg-rose-100 px-1.5 py-0.5 font-bold text-rose-700">승인 필요</span> 사람 판단<br />
+          <span class="mt-1 inline-block rounded bg-neutral-200 px-1.5 py-0.5 font-bold text-neutral-700">창고 작업</span> 포장 등 실물
+        </p>
+      </aside>
+
+      <div class="mt-6 min-w-0 space-y-12 lg:mt-0">
+        <section id="dash" class="scroll-mt-6"><h2 class="text-lg font-bold">① 대시보드</h2><div id="a-dash" class="mt-3"></div></section>
+
+        <section id="flow" class="scroll-mt-6">
+          <h2 class="text-lg font-bold">② 주문 흐름 · 자동화</h2>
+          <p class="mt-1 text-xs text-neutral-500">주문 → 결제 확인 → 출고 준비 → 배송 → 수령 → 정산. 사람은 발주 확정 · 입고 검수 · 반품 승인 · 이상 주문 확인만 처리합니다.</p>
+          <div id="a-flow" class="mt-3"></div>
+        </section>
+
+        <section id="stock" class="scroll-mt-6">
+          <div class="flex flex-wrap items-center gap-2">
+            <h2 class="mr-auto text-lg font-bold">③ 상품 · 재고</h2>
+            <label class="text-xs text-neutral-600">수정 사유 <select id="a-reason" class="h-9 rounded border border-neutral-300 bg-white px-2"><option>조정</option><option>입고</option><option>불량</option></select></label>
+            <button type="button" id="a-down" class="btn btn-line !h-9 !px-3 text-sm">CSV 내려받기</button>
+            <label class="btn btn-line !h-9 !px-3 text-sm cursor-pointer">CSV 올리기<input id="a-up" type="file" accept=".csv,text/csv" class="hidden" /></label>
+          </div>
+          <p class="mt-1 text-xs text-neutral-500">쇼핑몰 딱지(SOLD OUT · LOW STOCK)와 구매 버튼은 "가용" 수량만으로 판정합니다. 가용을 수정하면 쇼핑몰에 바로 반영됩니다.</p>
+          <div id="a-stock" class="mt-3 max-h-[520px] overflow-auto"></div>
+          <h3 class="mt-4 font-bold">최근 변경 5건</h3>
+          <div class="mt-2 overflow-x-auto"><table class="adm bg-white"><thead><tr><th>일시(KST)</th><th>옵션 코드</th><th>이전 → 새값</th><th>사유</th></tr></thead><tbody id="a-slog"></tbody></table></div>
+        </section>
+
+        <section id="po" class="scroll-mt-6"><h2 class="text-lg font-bold">④ 발주 · 입고</h2><div id="a-po" class="mt-3"></div></section>
+
+        <section id="erp" class="scroll-mt-6">
+          <h2 class="text-lg font-bold">⑤ ERP 연동 도식</h2>
+          <p class="mt-1 text-xs text-neutral-500">설계 도식(미연결). 쇼핑몰 · 관리자 · ERP가 같은 키로 같은 숫자를 보도록 구성합니다.</p>
+          <div class="mt-3 rounded-lg border border-neutral-200 bg-white p-4">
+            <p class="text-center text-[13px]">공통 키
+              {['주문번호', '출고 단위', '옵션 코드'].map((k) => <span class="mx-1 inline-block rounded-full border-2 border-rose-600 px-3 py-0.5 font-bold text-rose-700">{k}</span>)}
+            </p>
+            <div class="mt-4 grid gap-3 text-[13px] xl:grid-cols-[1fr_auto_1fr_auto_2.2fr]">
+              <div class="rounded-xl border-2 border-dashed border-neutral-300 p-3">
+                <p class="mb-2 text-center font-bold">팬 · MD SHOP</p>
+                <div class="space-y-2">{['상품 목록 · 상세 (딱지 · 구매 버튼)', '주문 · 결제', '재입고 알림 신청', '마이페이지 (배송 조회 · 주소 변경)'].map((t) => <div class={box}>{t}</div>)}</div>
+              </div>
+              <p class="self-center text-center text-xs leading-loose text-neutral-500">주문 →<br />← 가용 재고<br />← 배송 상태</p>
+              <div class="rounded-xl border-2 border-dashed border-neutral-300 p-3">
+                <p class="mb-2 text-center font-bold">운영자 · 관리자 페이지</p>
+                <div class="space-y-2">{menu.slice(0, 4).map(([id, t]) => <a href={`#${id}`} class:list={[box, 'block font-bold']}>{t}</a>)}</div>
+              </div>
+              <p class="self-center text-center text-xs leading-loose text-neutral-500">승인 · 입력 →<br />← 집계<br />자동 반영</p>
+              <div class="rounded-xl border-2 border-dashed border-neutral-900 p-3">
+                <p class="mb-2 text-center font-bold">ERP</p>
+                <div class="grid grid-cols-2 gap-2 md:grid-cols-3">{erp.map(([t, d]) => <div class="rounded-lg bg-neutral-900 p-3 text-white"><b>{t}</b><br /><span class="text-xs text-white/75">{d}</span></div>)}</div>
+              </div>
+            </div>
+            <div class="mt-4 overflow-x-auto"><table class="adm"><thead><tr><th>일어난 일</th><th>ERP 처리</th><th>화면 반영</th><th>자동화 규칙</th></tr></thead>
+              <tbody>{links.map((r) => <tr><td class="font-bold">{r[0]}</td><td>{r[1]}</td><td>{r[2]}</td><td>{r[3]}</td></tr>)}</tbody></table></div>
+            <div class="mt-3 grid gap-3 text-center text-[13px] md:grid-cols-2"><div class={box}>물류 창고 · 택배사 (국내 · 해외) — 포장 · 상차 = 창고 작업</div><div class={box}>해외 파트너 (재고 할당 · 정산)</div></div>
+          </div>
+        </section>
+      </div>
     </div>
   </div>
-
-  <script>
-    import { products, site, T, state, save, reset, toast, paint, dual, esc } from '../lib/app.js';
-    import { status, stocks, total, lowAt, sortProducts, statusChip, fmtDate } from '../lib/logic.js';
-    import * as app from '../lib/app.js';
-    const $ = (s) => document.querySelector(s);
-    const st = () => app.state;
-    const n = (v) => Number(v).toLocaleString('en-US');
-    const name = (p) => dual(p.name_ko, p.name_en);
-    const notify = (p) => ({ kr: p.notify_kr + (st().notify[p.id] || 0), intl: p.notify_intl });
-
-    function dash() {
-      const s = st();
-      const oKr = products.reduce((a, p) => a + p.today_orders_kr, 0), oIn = products.reduce((a, p) => a + p.today_orders_intl, 0);
-      const pre = products.filter((p) => p.sale_type === 'preorder');
-      const low = products.filter((p) => status(p, s) === 'low').length;
-      const nt = products.map(notify), nKr = nt.reduce((a, x) => a + x.kr, 0), nIn = nt.reduce((a, x) => a + x.intl, 0);
-      const wait = products.filter((p) => status(p, s) === 'soldout').reduce((a, p) => a + notify(p).kr + notify(p).intl, 0);
-      const cb = site.clicks.banner + s.clicks.banner, cp = site.clicks.poster + s.clicks.poster;
-      const series = [...site.orders_6d, oKr + oIn], mx = Math.max(...series), mn = Math.min(...series);
-      const pts = series.map((v, i) => `${(i * 100) / 6},${28 - ((v - mn) / (mx - mn || 1)) * 24}`).join(' ');
-      const steps = (p) => [['d.t1', p.preorder_start], ['d.t2', p.preorder_end], ['d.t3', p.release], ['d.t4', p.ship_start]]
-        .map(([k, d]) => `<span class="${d.slice(0, 10) <= site.today ? 'text-neutral-400' : ''}">${T(k)} ${fmtDate(d).slice(5)}${d.slice(0, 10) <= site.today ? ` (${T('d.done')})` : ''}</span>`).join('<span class="text-neutral-300"> → </span>');
-      const tile = (k, v, sub = '', extra = '') => `<div class="rounded-lg border border-neutral-200 p-4" ${extra}><p class="text-xs text-neutral-500">${T(k)}</p><p class="mt-1 text-2xl font-black tabular-nums">${v}</p><p class="mt-1 text-[11px] text-neutral-500">${sub || '&nbsp;'}</p></div>`;
-      $('#a-dash').innerHTML = `
-        <div class="rounded-lg bg-neutral-50 p-4 text-[13px]"><p class="text-xs font-bold text-neutral-500">${T('a.sched')}</p>
-          ${pre.map((p) => `<a href="#stock" class="mt-2 block"><b>${name(p)}</b><br><span class="text-xs">${steps(p)}</span></a>`).join('')}</div>
-        <p class="mt-3 rounded-lg border border-rose-200 bg-rose-50 px-4 py-2.5 text-[13px] font-bold text-rose-700">${T('a.pending')} · <a href="#stock" class="underline">${T('a.pending.low', { n: low })}</a> · <a href="#restock" class="underline">${T('a.pending.notify', { n: n(wait) })}</a></p>
-        <div class="mt-3 grid grid-cols-2 gap-3 md:grid-cols-3 xl:grid-cols-5">
-          ${tile('a.k1', n(oKr + oIn), T('a.split', { k: n(oKr), i: n(oIn) }))}
-          ${tile('a.k2', `${n(pre.reduce((a, p) => a + p.preorder_count, 0))} <span class="text-base font-bold text-neutral-400">/ ${n(pre.reduce((a, p) => a + p.order_qty, 0))}</span>`)}
-          ${tile('a.k3', low)}
-          ${tile('a.k4', n(nKr + nIn), T('a.split', { k: n(nKr), i: n(nIn) }))}
-          ${tile('a.k5', n(cb + cp), T('a.k5d', { b: n(cb), p: n(cp) }))}
-        </div>
-        <div class="mt-3 rounded-lg border border-neutral-200 p-4"><p class="text-xs text-neutral-500">${T('a.7d')}</p>
-          <svg viewBox="-2 0 104 32" preserveAspectRatio="none" class="mt-2 h-16 w-full"><polyline points="${pts}" fill="none" stroke="#111" stroke-width="1.5" vector-effect="non-scaling-stroke"/></svg></div>`;
-    }
-
-    function stockTable() {
-      const s = st(), list = sortProducts(products, s);
-      $('#a-stock').innerHTML = `<table class="adm"><thead><tr><th>${T('a.c.order')}</th><th>${T('a.c.product')}</th><th>${T('a.c.option')}</th><th>${T('a.c.stock')}</th><th>${T('a.c.low')}</th><th>${T('a.c.status')}</th></tr></thead><tbody>${list.map((p, i) =>
-        p.options.map((o, j) => `<tr>${j ? '<td></td><td></td>' : `<td class="whitespace-nowrap"><button type="button" data-mv="-1" data-id="${p.id}" class="h-8 w-8 rounded border border-neutral-300" ${i ? '' : 'disabled'}>↑</button> <button type="button" data-mv="1" data-id="${p.id}" class="h-8 w-8 rounded border border-neutral-300" ${i < list.length - 1 ? '' : 'disabled'}>↓</button></td><td class="min-w-[180px]"><b>${name(p)}</b><br><span class="text-xs text-neutral-500">${esc(p.tab)}</span></td>`}
-          <td>${esc(o) || '-'}</td><td><input type="number" min="0" inputmode="numeric" data-stock="${p.id}" data-j="${j}" value="${stocks(p, s)[j]}"></td>
-          ${j ? '<td></td><td></td>' : `<td><input type="number" min="0" inputmode="numeric" data-low="${p.id}" value="${lowAt(p, s)}"></td><td>${statusChip(status(p, s)) || '<span class="text-xs text-neutral-500">ON SALE</span>'}</td>`}</tr>`).join('')).join('')}</tbody></table>`;
-    }
-
-    function restock() {
-      const s = st(), r = site.restock_conversion;
-      const list = products.filter((p) => status(p, s) === 'soldout' || notify(p).kr + notify(p).intl > 0);
-      $('#a-restock').innerHTML = `<p class="text-xs leading-relaxed text-neutral-500">${T('a.notify.note', { r: Math.round(r * 100) })}</p>
-        <div class="mt-3 overflow-x-auto"><table class="adm"><thead><tr><th>${T('a.c.product')}</th><th>${T('a.c.req')}</th><th>${T('a.c.kr')}</th><th>${T('a.c.intl')}</th><th>${T('a.c.cur')}</th><th>${T('a.c.ref')}</th><th>${T('a.c.memo')}</th><th></th></tr></thead><tbody>${list.map((p) => {
-          const x = notify(p), t = x.kr + x.intl;
-          return `<tr><td class="min-w-[180px]"><b>${name(p)}</b></td><td class="tabular-nums font-bold">${n(t)}</td><td class="tabular-nums">${n(x.kr)}</td><td class="tabular-nums">${n(x.intl)}</td><td class="tabular-nums">${n(total(p, s))}</td><td class="tabular-nums font-bold">${n(Math.ceil((t * r) / 10) * 10)}</td>
-          <td><input type="text" data-memo="${p.id}" value="${esc(s.memo[p.id] || '')}" style="width:160px"></td><td><button type="button" data-send="${p.id}" class="btn btn-ink !h-9 !px-3 text-xs whitespace-nowrap">${T('a.c.send')}</button></td></tr>`;
-        }).join('') || `<tr><td colspan="8" class="text-neutral-500">-</td></tr>`}</tbody></table></div>`;
-    }
-
-    const render = () => { dash(); stockTable(); restock(); };
-    const commit = () => { save(); paint(); dash(); restock(); };
-    render();
-
-    document.addEventListener('change', (e) => {
-      const el = e.target, s = st();
-      if (el.dataset.stock) { const p = products.find((x) => x.id === el.dataset.stock); const a = [...stocks(p, s)]; a[el.dataset.j] = Math.max(0, Math.floor(Number(el.value) || 0)); s.stock[p.id] = a; commit(); setTimeout(stockTable); }
-      if (el.dataset.low) { s.low[el.dataset.low] = Math.max(0, Math.floor(Number(el.value) || 0)); commit(); setTimeout(stockTable); }
-      if (el.dataset.memo) { s.memo[el.dataset.memo] = el.value; save(); }
-      if (el.id === 'a-up' && el.files[0]) el.files[0].text().then((txt) => {
-        let ok = 0;
-        txt.replace(/^﻿/, '').split(/\r?\n/).slice(1).forEach((line) => {
-          const [id, opt, v] = line.split(',').map((x) => (x || '').trim().replace(/^"|"$/g, ''));
-          const p = products.find((x) => x.id === id); if (!p || v === '' || isNaN(v)) return;
-          const j = Math.max(0, p.options.indexOf(opt)); const a = [...stocks(p, s)]; a[j] = Math.max(0, Math.floor(Number(v))); s.stock[p.id] = a; ok++;
-        });
-        el.value = ''; if (ok) { commit(); setTimeout(stockTable); toast(T('a.csv.ok')); } else toast(T('a.csv.err'));
-      });
-    });
-    document.addEventListener('click', (e) => {
-      const el = e.target.closest('[data-mv],[data-send],#a-reset,#a-down'); if (!el) return;
-      const s = st();
-      if (el.dataset.mv) {
-        const ids = sortProducts(products, s).map((p) => p.id), i = ids.indexOf(el.dataset.id), k = i + Number(el.dataset.mv);
-        [ids[i], ids[k]] = [ids[k], ids[i]]; s.order = ids; commit(); setTimeout(stockTable);
-      }
-      if (el.dataset.send) { const p = products.find((x) => x.id === el.dataset.send); toast(T(total(p, s) > 0 ? 'a.send.toast' : 'a.send.need')); }
-      if (el.id === 'a-reset') { reset(); paint(); render(); }
-      if (el.id === 'a-down') {
-        const rows = ['id,option,stock', ...products.flatMap((p) => p.options.map((o, j) => `${p.id},${o},${stocks(p, s)[j]}`))];
-        const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob(['﻿' + rows.join('\n')], { type: 'text/csv' })); a.download = 'stock.csv'; a.click();
-      }
-    });
-  </script>
+  <script>import '../lib/admin.js';</script>
 </Base>

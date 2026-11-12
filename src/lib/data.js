@@ -32,7 +32,7 @@ export function img(folder, name) {
   return null;
 }
 
-const NUM = ['sort', 'proposal', 'price_krw', 'price_usd', 'low_stock_at', 'limit_per_account', 'intl_ship', 'bonus', 'season_limited', 'chart', 'ship_days', 'sales', 'preorder_count', 'order_qty', 'today_orders_kr', 'today_orders_intl', 'notify_kr', 'notify_intl'];
+const NUM = ['sort', 'proposal', 'price_krw', 'price_usd', 'low_stock_at', 'limit_per_account', 'intl_ship', 'bonus', 'season_limited', 'chart', 'ship_days', 'sales', 'preorder_count', 'order_qty', 'notify_kr', 'notify_intl', 'moq', 'lead_days'];
 export const products = parseCSV(read('products.csv')).map((p) => {
   for (const k of NUM) p[k] = Number(p[k] || 0);
   p.options = p.options ? p.options.split('|').map((s) => s.trim()) : [''];
@@ -42,6 +42,9 @@ export const products = parseCSV(read('products.csv')).map((p) => {
   p.details = [1, 2].map((n) => ({ name: `${p.id}_detail${n}.jpg`, src: img('product', `${p.id}_detail${n}`) }));
   return p;
 });
+
+// 가공 주문 원본: 관리자 전 화면 숫자의 유일한 출처
+export const orders = parseCSV(read('orders.csv')).map((o) => ({ no: o.no, date: o.date, country: o.country, pid: o.product_id, opt: Number(o.option), qty: Number(o.qty), status: o.status, tracking: o.tracking, flag: o.flag, reason: o.reason }));
 
 export const copy = Object.fromEntries(parseCSV(read('copy.csv')).map((r) => [r.key, { ko: r.ko, en: r.en }]));
 export const site = siteJson;

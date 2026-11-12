@@ -12,7 +12,6 @@ nav.menu,메뉴,Menu
 nav.search,상품 검색,Search products
 nav.shop,ATEEZ 샵,ATEEZ Shop
 nav.scenario,설계 시나리오,Design Scenarios
-nav.admin,관리자 데모,Admin Demo
 nav.mypage,주문·배송 조회,Order Tracking
 nav.noresult,검색 결과가 없습니다.,No results found.
 banner.pause,일시정지,Pause
@@ -121,46 +120,6 @@ r.name,판매처,Retailer
 r.type,유형,Type
 sc.title,설계 시나리오,Design Scenarios
 sc.lead,세 가지 이용 흐름으로 화면 설계 이유를 설명합니다.,Three user flows that explain why each screen is designed this way.
-a.title,관리자 데모,Admin Demo
-a.note,입력값은 이 브라우저에만 저장되며 매일 초기화됩니다.,Inputs are stored only in this browser and reset daily.
-a.reset,초기화,Reset
-a.toshop,샵에서 확인,View in shop
-a.m1,대시보드,Dashboard
-a.m2,재고 · 진열,Stock & Display
-a.m3,재입고 알림,Restock Alerts
-a.sched,예약 일정,Pre-order schedule
-a.pending,처리 대기,Pending
-a.pending.low,LOW STOCK {n}개,LOW STOCK {n}
-a.pending.notify,재입고 알림 대기 {n}건,{n} restock requests waiting
-a.k1,오늘 주문,Orders today
-a.k2,예약 누계 / 발주 수량,Pre-orders / Ordered qty
-a.k3,LOW STOCK,LOW STOCK
-a.k4,재입고 알림 신청,Restock requests
-a.k5,클릭,Clicks
-a.k5d,배너 {b} · 포스터 {p},Banner {b} · Poster {p}
-a.split,국내 {k} · 해외 {i},Korea {k} · Overseas {i}
-a.7d,최근 7일 주문,"Orders, last 7 days"
-a.c.order,순서,Order
-a.c.product,상품,Product
-a.c.option,옵션,Option
-a.c.stock,재고,Stock
-a.c.low,LOW STOCK 기준,LOW STOCK at
-a.c.status,상태(자동),Status (auto)
-a.stock.note,재고를 수정하면 메인·샵·상세의 딱지와 구매 버튼에 바로 반영됩니다. 진열은 자동(예약 마감 임박 → 판매 중 → 품절)이며 ↑↓로 직접 변경할 수 있습니다.,"Stock edits are reflected immediately in badges and purchase buttons on the main, shop, and product pages. Display order is automatic (pre-order closing soon → on sale → sold out) and can be changed with ↑↓."
-a.csv.down,CSV 내려받기,Download CSV
-a.csv.up,CSV 올리기,Upload CSV
-a.csv.ok,CSV를 반영했습니다.,CSV applied.
-a.csv.err,"CSV 형식을 확인해 주십시오. (id,option,stock)","Please check the CSV format. (id,option,stock)"
-a.c.req,신청 수,Requests
-a.c.kr,국내,Korea
-a.c.intl,해외,Overseas
-a.c.cur,현재 재고,Current stock
-a.c.ref,발주 참고값(추정),Suggested qty (estimate)
-a.c.memo,발주 메모,Order memo
-a.c.send,알림 발송,Send alert
-a.notify.note,발주 참고값 = 신청 수 × 재입고 후 구매 전환율 {r}%(추정). 품절 상품 상세에서 [재입고 알림]을 누르면 신청 수가 늘어납니다.,Suggested qty = requests × post-restock conversion rate {r}% (estimate). Tapping [Notify me] on a sold-out product page increases the request count.
-a.send.toast,재입고 후 발송되는 알림입니다. 본 데모에서는 실제 발송되지 않습니다.,This alert is sent after restock. It is not actually sent in this demo.
-a.send.need,재고 입력 후 발송할 수 있습니다.,Enter stock before sending.
 sort.label,정렬,Sort
 sort.closing,마감임박순,Closing soon
 sort.new,신상품순,Newest

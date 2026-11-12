@@ -3,9 +3,9 @@ import '../styles/global.css';
 import { products, copy, site } from '../lib/data.js';
 import { makeT } from '../lib/logic.js';
 // overlay: 첫 화면 배너 위 투명 헤더 / bare: 쇼핑몰 헤더·하단 없는 별도 화면(관리자) / top: 맨 위로 버튼
-const { title = 'KQ MD SHOP', overlay = false, bare = false, top = false } = Astro.props;
+const { title = 'KQ MD SHOP', overlay = false, bare = false, top = false, extra = {} } = Astro.props;
 const T = makeT(copy);
-const data = JSON.stringify({ products, copy, site }).replace(/</g, '\\u003c');
+const data = JSON.stringify({ products, copy, site, ...extra }).replace(/</g, '\\u003c');
 const cols = [
   ['f.support', [['f.notice', '/help/#notice'], ['f.faq', '/help/#faq'], ['f.inquiry', '/help/#inquiry'], ['f.cs', '/help/#cs']]],
   ['f.guide', [['f.shipping', '/help/#shipping'], ['f.exchange', '/help/#exchange'], ['f.address', '/help/#address'], ['f.track', '/login/'], ['f.retailers', '/retailers/']]],

@@ -15,6 +15,7 @@ Astro + Tailwind + Swiper 정적 사이트. Cloudflare Pages 배포. 결제 기�
 - 상태 딱지는 재고에서 자동 계산: 재고 0 = SOLD OUT, 예약 상품 = PRE-ORDER, 재고 ≤ `low_stock_at` = LOW STOCK.
 - 아티스트 구역 배경색은 `poster/{artist}_poster.jpg`에서 빌드 시 자동 추출(사진 없으면 회색).
 - 정렬: `listed`(등록일) = 신상품순, `sales`(판매량 가안) = 인기순.
+- 관리자 숫자의 원본 = `src/data/orders.csv`(가공 주문) + `products.csv`(재고·예약 누계·`moq` 최소 발주·`lead_days` 리드타임) + `site.json`의 `pos`(발주). 단계 이동·자동화 규칙은 `src/lib/admin.js`의 `advance()` 1곳.
 - 관리자 데모(`/admin/`, 쇼핑몰 메뉴에 링크 없음·주소 직접 입력) 입력값은 보는 사람 브라우저에만 저장, 매일 초기화.
 
 ## 사진 파일명
