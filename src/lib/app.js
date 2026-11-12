@@ -16,6 +16,8 @@ export function load() {
   return { day: day(), stock: {}, low: {}, order: [], notify: {}, memo: {}, clicks: { banner: 0, poster: 0 }, cart: 0 };
 }
 export let state = load();
+// 관리자 상품 수정분(상품명 · 가격 · 구매 제한 · 해외 배송) 쇼핑몰 카드에 반영
+for (const p of products) Object.assign(p, state.edit?.[p.id] || {});
 export const save = () => ls.set(KEY, JSON.stringify(state));
 export const reset = () => { try { localStorage.removeItem(KEY); } catch {} state = load(); };
 

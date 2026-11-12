@@ -60,4 +60,4 @@ button, summary, select { cursor: pointer; }
 table.adm { width: 100%; font-size: 13px; border-collapse: collapse; }
 table.adm th { text-align: left; font-weight: 600; color: #737373; padding: 8px; border-bottom: 1px solid #d4d4d4; white-space: nowrap; }
 table.adm td { padding: 8px; border-bottom: 1px solid #ececec; vertical-align: middle; }
-table.adm input { width: 84px; height: 36px; border: 1px solid #d4d4d4; border-radius: 4px; padding: 0 8px; }
+table.adm input { width: 84px; height: 40px; border: 1px solid #d4d4d4; border-radius: 4px; padding: 0 8px; }

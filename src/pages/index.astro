@@ -17,12 +17,12 @@ const banners = site.banners.map((b) => {
   <section class="swiper relative aspect-square w-full md:aspect-auto md:h-[min(86vh,760px)] bg-neutral-800 text-white" id="banner">
     <div class="swiper-wrapper">
       {banners.map((b, i) => (
-        <a href={b.href} data-click="banner" class="swiper-slide relative block">
+        <a href={b.href} data-click="banner" data-banner={i} class="swiper-slide relative block">
           <div class="ph dark absolute inset-0"><span>{b.img}.jpg</span>{b.src && <img src={b.src} alt="" loading={i ? 'lazy' : 'eager'} />}</div>
           <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent"></div>
           <div class="wrap absolute inset-x-0 bottom-0 pb-12 md:pb-16">
             <p class="text-xs tracking-[.2em] lowercase text-white/80">{b.label}{b.d !== null && <span class="ml-2 rounded-sm bg-white px-1.5 py-0.5 font-bold tracking-normal text-black" set:html={T('s.dday', { n: b.d })} />}</p>
-            <h1 class="mt-2 max-w-3xl text-2xl font-black leading-tight tracking-tight md:text-5xl"><span class="ko">{b.title_ko}</span><span class="en">{b.title_en}</span></h1>
+            <h1 class="mt-2 max-w-3xl text-2xl font-black leading-tight tracking-tight md:text-5xl"><span class="ko" data-bko>{b.title_ko}</span><span class="en" data-ben>{b.title_en}</span></h1>
             <span class="mt-4 inline-block border-b border-white pb-0.5 text-sm font-bold"><span class="ko">{b.cta_ko}</span><span class="en">{b.cta_en}</span> →</span>
           </div>
         </a>
@@ -50,6 +50,16 @@ const banners = site.banners.map((b) => {
   <script>
     import Swiper from 'swiper';
     import { Autoplay, Pagination } from 'swiper/modules';
+    // 관리자 배너 설정(이 브라우저 저장) 반영: 문구 · 게시 기간 · 사용 여부
+    try {
+      const st = JSON.parse(localStorage.getItem('kq_demo_v2') || '{}'), bs = st.banner, today = JSON.parse(document.getElementById('__data').textContent).site.today;
+      if (bs && st.day === new Date().toLocaleDateString('sv')) document.querySelectorAll('[data-banner]').forEach((el) => {
+        const b = bs[el.dataset.banner]; if (!b) return;
+        if (!b.on || (b.start && b.start > today) || (b.end && b.end < today)) return el.remove();
+        if (b.ko) el.querySelector('[data-bko]').textContent = b.ko;
+        if (b.en) el.querySelector('[data-ben]').textContent = b.en;
+      });
+    } catch {}
     const sw = new Swiper('#banner', { modules: [Autoplay, Pagination], loop: true, autoplay: { delay: 3500, disableOnInteraction: false, pauseOnMouseEnter: true }, pagination: { el: '.swiper-pagination', clickable: true } });
     const btn = document.getElementById('banner-pause');
     let paused = false;
