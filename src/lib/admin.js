@@ -18,7 +18,7 @@ const RULES = [
   ['R1', '결제 완료', '주문 접수 · 재고 할당(가용 → 출고 대기 / 예약 할당)'],
   ['R2', '출고 준비 완료', '피킹 리스트 · 송장 번호 일괄 생성'],
   ['R3', '송장 등록', '배송 알림 발송 · 주소 변경 잠금'],
-  ['R4', '배송 완료 신호', '수령 처리'],
+  ['R4', '', '수령 처리'],
   ['R5', '가용 재고 ≤ LOW 기준', '발주서 초안 생성(최근 7일 판매량 기준)'],
   ['R6', '입고 검수 승인', '가용 재고 전환 · 품절 해제 · 재입고 알림 발송'],
   ['R7', '수령 다음 날', '정산 집계(매출 · 환불)'],
@@ -161,18 +161,17 @@ function dash() {
 
 function flow() {
   const ap = approvals();
-  const step = (k, s, tags, sub) => `<button type="button" data-filter="${s}" class="min-w-[120px] flex-1 rounded-lg border p-3 text-left ${A.filter === s ? 'border-neutral-900 bg-neutral-900 text-white' : 'border-neutral-200 bg-white'}"><p class="text-xs">${k}</p><p class="text-2xl font-black tabular-nums">${count(s)}</p><p class="mt-1 flex flex-wrap gap-1">${tags}</p><p class="mt-1 text-[11px] opacity-70">${sub}</p></button>`;
+  const step = (k, s, tags, sub) => `<button type="button" data-filter="${s}" class="min-w-[120px] flex-1 rounded-lg border p-3 text-left ${A.filter === s ? 'border-neutral-900 bg-neutral-900 text-white' : 'border-neutral-200 bg-white'}"><p class="text-xs">${k}</p><p class="text-2xl font-black tabular-nums">${count(s)}</p><p class="mt-1 flex flex-wrap gap-1">${tags}</p>${sub ? `<p class="mt-1 text-[11px] opacity-70">${sub}</p>` : ''}</button>`;
   const list = A.orders.filter((o) => A.filter === 'all' || o.status === A.filter).sort((a, b) => b.no.localeCompare(a.no)).slice(0, 40);
   $('#a-flow').innerHTML = `
     <div class="flex flex-wrap items-center gap-2"><span class="rounded bg-neutral-900 px-2 py-1 text-xs font-bold text-white">데모 날짜 ${today().replace(/-/g, '.')}</span>
-      <button type="button" id="a-next" class="btn btn-ink !h-10 !px-4 text-sm">하루 진행 ▶</button>
-      <span class="text-xs text-neutral-500">누르면 자동 처리분이 다음 단계로 이동, 승인 필요 건만 아래 "사람 승인 대기"에 남음</span></div>
+      <button type="button" id="a-next" class="btn btn-ink !h-10 !px-4 text-sm">하루 진행 ▶</button></div>
     <div class="mt-3 flex gap-2 overflow-x-auto pb-1">
-      ${step('① 결제 확인', 'pay', AUTO + HUMAN, '이상 주문만 사람 확인')}${step('② 출고 준비', 'ready', AUTO + PHYS, '피킹 리스트·송장 자동 / 포장')}
-      ${step('③ 배송 중', 'shipped', AUTO, '알림 발송·주소 잠금')}${step('④ 수령', 'delivered', AUTO, '배송 완료 신호')}${step('⑤ 정산 완료', 'closed', AUTO, '매출·환불 집계')}
+      ${step('① 결제 확인', 'pay', AUTO + HUMAN, '')}${step('② 출고 준비', 'ready', AUTO + PHYS, '')}
+      ${step('③ 배송 중', 'shipped', AUTO, '')}${step('④ 수령', 'delivered', AUTO, '')}${step('⑤ 정산 완료', 'closed', AUTO, '')}
     </div>
     <div class="mt-2 flex gap-2 overflow-x-auto pb-1">
-      ${step('예약 할당 (입고 대기)', 'reserved', AUTO, '입고 검수 승인 시 출고 준비')}${step('교환·반품 접수', 'return_req', HUMAN, '반품 승인')}${step('교환·반품 완료', 'returned', AUTO, '재고·환불 반영')}
+      ${step('예약 할당 (입고 대기)', 'reserved', AUTO, '')}${step('교환·반품 접수', 'return_req', HUMAN, '')}${step('교환·반품 완료', 'returned', AUTO, '')}
       <button type="button" data-filter="all" class="min-w-[120px] flex-1 rounded-lg border p-3 text-left ${A.filter === 'all' ? 'border-neutral-900 bg-neutral-900 text-white' : 'border-neutral-200 bg-white'}"><p class="text-xs">전체 주문</p><p class="text-2xl font-black tabular-nums">${A.orders.length}</p></button>
     </div>
     <h3 class="mt-6 font-bold">사람 승인 대기 ${ap.length}건</h3>
@@ -209,8 +208,7 @@ function po() {
     <div class="mt-2 overflow-x-auto"><table class="adm bg-white"><thead><tr><th>발주 번호</th><th>옵션 코드</th><th>수량</th><th>발주일</th><th>입고 예정</th><th>리드타임</th><th>상태</th><th>근거</th><th></th></tr></thead><tbody>${A.pos.map((x) => `<tr><td class="whitespace-nowrap">${x.id}</td><td class="whitespace-nowrap font-bold">${sku(P[x.pid], x.opt)}</td><td class="tabular-nums">${n(x.qty)}</td><td>${md(x.date)}</td><td>${md(x.eta)}</td><td>${P[x.pid].lead_days}일</td><td class="whitespace-nowrap">${PST[x.status]}</td><td class="min-w-[200px] text-xs text-neutral-600">${esc(x.note)}</td>
       <td>${x.status === 'draft' ? `<button type="button" data-ap="po" data-id="${x.id}" class="btn btn-ink !h-8 !px-3 text-xs whitespace-nowrap">발주 확정</button>` : x.status === 'inspect' ? `<button type="button" data-ap="insp" data-id="${x.id}" class="btn btn-ink !h-8 !px-3 text-xs whitespace-nowrap">검수 승인</button>` : ''}</td></tr>`).join('')}</tbody></table></div>
     <h3 class="mt-6 font-bold">재입고 알림 → 발주 판단</h3>
-    <p class="mt-1 text-xs text-neutral-500">발주 참고 = 신청 수 × 재입고 후 구매 전환율 ${Math.round(site.restock_conversion * 100)}%(추정). 최소 발주 수량 미달이면 자동 제안 보류.</p>
-    <div class="mt-2 overflow-x-auto"><table class="adm bg-white"><thead><tr><th>옵션 코드</th><th>상품</th><th>신청</th><th>국내</th><th>해외</th><th>가용</th><th>발주 참고</th><th>최소 발주</th><th>판단</th><th>알림</th></tr></thead><tbody>${rs.map((p) => { const x = notifyOf(p), t = x.kr + x.intl, ref = Math.ceil((t * site.restock_conversion) / 10) * 10, open = A.pos.find((y) => y.pid === p.id && y.status !== 'received');
+    <div class="mt-2 overflow-x-auto"><table class="adm bg-white"><thead><tr><th>옵션 코드</th><th>상품</th><th>신청</th><th>국내</th><th>해외</th><th>가용</th><th>발주 참고(신청×전환율)</th><th>최소 발주</th><th>판단</th><th>알림</th></tr></thead><tbody>${rs.map((p) => { const x = notifyOf(p), t = x.kr + x.intl, ref = Math.ceil((t * site.restock_conversion) / 10) * 10, open = A.pos.find((y) => y.pid === p.id && y.status !== 'received');
       return `<tr><td class="font-bold">${sku(p)}</td><td class="min-w-[180px]">${esc(p.name_ko)}</td><td class="font-bold tabular-nums">${n(t)}</td><td class="tabular-nums">${n(x.kr)}</td><td class="tabular-nums">${n(x.intl)}</td><td class="tabular-nums">${n(total(p, S()))}</td><td class="tabular-nums">${n(ref)}</td><td class="tabular-nums">${n(p.moq)}</td><td class="whitespace-nowrap">${open ? '발주 진행 (' + open.id + ')' : ref >= p.moq ? '발주 제안' : '보류(미달)'}</td><td class="whitespace-nowrap">${A.sent[p.id] ? md(A.sent[p.id]) + ' 발송' : '입고 시 자동'}</td></tr>`; }).join('') || '<tr><td colspan="10" class="text-neutral-500">-</td></tr>'}</tbody></table></div>`;
 }
 

@@ -1,0 +1,56 @@
+---
+// ERP 연동 도식 (관리자 메뉴와 분리, 면접 설명용)
+import Base from '../layouts/Base.astro';
+const menu = [['dash', '① 대시보드'], ['flow', '② 주문 흐름 · 자동화'], ['stock', '③ 상품 · 재고'], ['po', '④ 발주 · 입고']];
+const box = 'rounded-lg border border-neutral-300 bg-white p-3';
+const erp = [
+  ['A 기준 정보', '상품 옵션 코드 · 해외 파트너 · 고객. 1곳 수정 → 전체 반영'],
+  ['B 재고', '가용 · 예약 할당 · 출고 대기 · 불량'],
+  ['C 구매 · 발주', '발주 · 입고 예정 · 입고 완료'],
+  ['D 판매 · 출고', '주문 → 피킹 → 송장 → 배송'],
+  ['E 회계', '결제 = 매출 / 예약 = 선수금, 발송 시 매출 인식'],
+  ['F 반품 · 교환', '불량 재고 이동 · 환불'],
+];
+const links = [
+  ['주문 결제', 'B 가용 −, 출고 대기 + / E 매출', '쇼핑몰 딱지 · ① 대시보드', 'R1'],
+  ['예약 주문', 'B 예약 할당 + / E 선수금', '④ 예약 누계', 'R1'],
+  ['재고 기준 이하', 'C 발주서 초안', '④ 발주 확정 대기', 'R5'],
+  ['발주 · 입고 검수', 'C 입고 완료 → B 가용 +', '품절 해제 · 재입고 알림 발송', 'R6'],
+  ['출고 · 송장', 'D 배송 상태 / B 출고 대기 −', '배송 알림 · 주소 변경 잠금', 'R2·R3'],
+  ['수령 · 정산', 'D 수령 / E 정산 집계', '② 정산 완료', 'R4·R7'],
+  ['반품 · 불량', 'F → B 불량 + / E 환불', '③ 불량 수량', '승인'],
+];
+---
+<Base title="ERP 연동 도식 | KQ MD SHOP" bare>
+  <div class="min-h-screen bg-neutral-100"><div class="wrap py-6">
+
+        <section id="erp" class="scroll-mt-6">
+          <h2 class="text-lg font-bold">ERP 연동 도식</h2>
+          
+          <div class="mt-3 rounded-lg border border-neutral-200 bg-white p-4">
+            <p class="text-center text-[13px]">공통 키
+              {['주문번호', '출고 단위', '옵션 코드'].map((k) => <span class="mx-1 inline-block rounded-full border-2 border-rose-600 px-3 py-0.5 font-bold text-rose-700">{k}</span>)}
+            </p>
+            <div class="mt-4 grid gap-3 text-[13px] xl:grid-cols-[1fr_auto_1fr_auto_2.2fr]">
+              <div class="rounded-xl border-2 border-dashed border-neutral-300 p-3">
+                <p class="mb-2 text-center font-bold">팬 · MD SHOP</p>
+                <div class="space-y-2">{['상품 목록 · 상세 (딱지 · 구매 버튼)', '주문 · 결제', '재입고 알림 신청', '마이페이지 (배송 조회 · 주소 변경)'].map((t) => <div class={box}>{t}</div>)}</div>
+              </div>
+              <p class="self-center text-center text-xs leading-loose text-neutral-500">주문 →<br />← 가용 재고<br />← 배송 상태</p>
+              <div class="rounded-xl border-2 border-dashed border-neutral-300 p-3">
+                <p class="mb-2 text-center font-bold">운영자 · 관리자 페이지</p>
+                <div class="space-y-2">{menu.map(([id, t]) => <a href={`/admin/#${id}`} class:list={[box, 'block font-bold']}>{t}</a>)}</div>
+              </div>
+              <p class="self-center text-center text-xs leading-loose text-neutral-500">승인 · 입력 →<br />← 집계<br />자동 반영</p>
+              <div class="rounded-xl border-2 border-dashed border-neutral-900 p-3">
+                <p class="mb-2 text-center font-bold">ERP</p>
+                <div class="grid grid-cols-2 gap-2 md:grid-cols-3">{erp.map(([t, d]) => <div class="rounded-lg bg-neutral-900 p-3 text-white"><b>{t}</b><br /><span class="text-xs text-white/75">{d}</span></div>)}</div>
+              </div>
+            </div>
+            <div class="mt-4 overflow-x-auto"><table class="adm"><thead><tr><th>일어난 일</th><th>ERP 처리</th><th>화면 반영</th><th>자동화 규칙</th></tr></thead>
+              <tbody>{links.map((r) => <tr><td class="font-bold">{r[0]}</td><td>{r[1]}</td><td>{r[2]}</td><td>{r[3]}</td></tr>)}</tbody></table></div>
+            <div class="mt-3 grid gap-3 text-center text-[13px] md:grid-cols-2"><div class={box}>물류 창고 · 택배사 (국내 · 해외) — 포장 · 상차 = 창고 작업</div><div class={box}>해외 파트너 (재고 할당 · 정산)</div></div>
+          </div>
+        </section>
+  </div></div>
+</Base>
