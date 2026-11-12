@@ -29,7 +29,7 @@ button, summary, select { cursor: pointer; }
 .ph.dark > span { color: #d4d4d8; }
 
 .badge { display: inline-flex; align-items: center; height: 20px; padding: 0 6px; font-size: 11px; font-weight: 700; white-space: nowrap; border-radius: 2px; letter-spacing: .02em; }
-.btn { display: inline-flex; align-items: center; justify-content: center; height: 52px; padding: 0 24px; font-weight: 700; border-radius: 4px; }
+.btn { display: inline-flex; align-items: center; justify-content: center; height: 48px; padding: 0 24px; font-weight: 700; border-radius: 4px; }
 .btn-ink { background: #111; color: #fff; }
 .btn-ink:hover { background: #333; }
 .btn-line { background: #fff; color: #111; border: 1.5px solid #111; }
@@ -49,9 +49,9 @@ button, summary, select { cursor: pointer; }
 .acc[open] > summary::after { content: "−"; }
 .acc > p, .acc > div { padding: 0 0 16px; font-size: 13px; line-height: 1.7; color: #525252; }
 
-.tabs { display: flex; gap: 24px; overflow-x: auto; scrollbar-width: none; white-space: nowrap; }
+.tabs { display: flex; gap: 20px; overflow-x: auto; scrollbar-width: none; white-space: nowrap; }
 .tabs::-webkit-scrollbar { display: none; }
-.tab { padding: 14px 0; font-weight: 700; font-size: 15px; color: #a3a3a3; border-bottom: 2px solid transparent; flex: none; }
+.tab { padding: 12px 0; font-weight: 700; font-size: 14px; color: #a3a3a3; border-bottom: 2px solid transparent; flex: none; }
 .tab[aria-selected="true"] { color: #111; border-color: #111; }
 
 .swiper-pagination-bullet { background: #fff !important; opacity: .5 !important; }

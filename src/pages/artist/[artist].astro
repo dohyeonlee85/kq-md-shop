@@ -9,9 +9,10 @@ export function getStaticPaths() {
 const { artist } = Astro.props;
 const T = makeT(copy);
 const list = products.filter((p) => p.artist === artist.id);
-const tabs = site.tabs.filter((t) => list.some((p) => p.tab === t)); // 빈 탭 자동 숨김
+const tabs = ['ALL', ...site.tabs.filter((t) => list.some((p) => p.tab === t))]; // 빈 탭 자동 숨김
+const intl = T('region.intl').replaceAll('$XX', `$${site.shipping_from_usd}`);
 ---
-<Base title={`${artist.name} | KQ MD SHOP`}>
+<Base title={`${artist.name} | KQ MD SHOP`} top>
   <Poster artist={artist} full />
   <!-- 탭: 영어 고정, 헤더 아래 고정, 좌우 밀기 -->
   <div class="sticky top-14 z-20 border-b border-neutral-200 bg-white">
@@ -19,26 +20,39 @@ const tabs = site.tabs.filter((t) => list.some((p) => p.tab === t)); // 빈 탭 
       {tabs.map((t) => <button type="button" role="tab" class="tab" data-t={t} aria-selected="false">{t}</button>)}
     </div>
   </div>
-  <section class="wrap mt-6 min-h-[50vh]">
-    <div class="grid-products" id="grid" data-grid={artist.id} set:html={gridHTML(list, null, T, site.today)} />
+  <section class="wrap mt-3 min-h-[50vh]">
+    <div class="flex items-center justify-between gap-3 text-[13px]">
+      <p class="min-w-0 text-xs text-neutral-600"><span class="intl" set:html={intl} /></p>
+      <label class="flex flex-none items-center gap-1 text-neutral-600">
+        <span class="sr-only" set:html={T('sort.label')} />
+        <!-- 선택 언어 1개만 표시: 언어별 select 2개 -->
+        {['ko', 'en'].map((l) => (
+          <select class:list={['sort h-9 rounded border border-neutral-300 bg-white px-2 font-bold text-neutral-900', l]} aria-label="Sort">
+            {['closing', 'new', 'popular'].map((m) => <option value={m}>{copy[`sort.${m}`][l]}</option>)}
+          </select>
+        ))}
+      </label>
+    </div>
+    <div class="grid-products mt-3" id="grid" data-grid={artist.id} set:html={gridHTML(list, null, T, site.today)} />
   </section>
-  <div class="mt-16 text-center"><button type="button" data-act="top" class="btn btn-line !h-11">↑ <Fragment set:html={T('shop.top')} /></button></div>
 
   <script>
     import '../../lib/app.js';
-    const tabs = document.getElementById('tabs');
-    const all = [...tabs.querySelectorAll('.tab')];
+    import { paint } from '../../lib/app.js';
+    const tabs = document.getElementById('tabs'), grid = document.getElementById('grid');
+    const all = [...tabs.querySelectorAll('.tab')], sorts = [...document.querySelectorAll('select.sort')];
     const want = new URLSearchParams(location.search).get('tab');
     let cur = (all.find((b) => b.dataset.t === want) || all.find((b) => b.dataset.t === tabs.dataset.first) || all[0]).dataset.t;
     function show() {
       all.forEach((b) => b.setAttribute('aria-selected', String(b.dataset.t === cur)));
-      document.querySelectorAll('#grid .card').forEach((c) => c.classList.toggle('hidden', c.dataset.tab !== cur));
+      grid.querySelectorAll('.card').forEach((c) => c.classList.toggle('hidden', cur !== 'ALL' && c.dataset.tab !== cur));
     }
     tabs.addEventListener('click', (e) => {
       const b = e.target.closest('.tab'); if (!b) return;
       cur = b.dataset.t; history.replaceState(null, '', `?tab=${encodeURIComponent(cur)}`); show();
       b.scrollIntoView({ inline: 'center', block: 'nearest', behavior: 'smooth' });
     });
+    sorts.forEach((s) => s.addEventListener('change', () => { sorts.forEach((x) => (x.value = s.value)); grid.dataset.sort = s.value; paint(); }));
     document.addEventListener('kq:paint', show);
     show();
   </script>

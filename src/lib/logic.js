@@ -27,6 +27,8 @@ const B = {
   low: ['LOW STOCK', 'bg-rose-600 text-white'],
 };
 const SUB = 'border border-neutral-300 text-neutral-600';
+const BONUS = 'bg-violet-100 text-violet-800';
+const SEASON = 'bg-amber-100 text-amber-900';
 const chip = (h, c) => `<span class="badge ${c}">${h}</span>`;
 export const statusChip = (s) => (B[s] ? chip(B[s][0], B[s][1]) : '');
 
@@ -36,8 +38,8 @@ export function badges(p, st, T) {
   if (s === 'soldout') return statusChip(s);
   const list = [];
   if (B[s]) list.push(statusChip(s));
-  if (p.bonus) list.push(chip(T('b.bonus'), SUB));
-  if (p.season_limited) list.push(chip(T('b.season'), SUB));
+  if (p.bonus) list.push(chip(T('b.bonus'), BONUS));
+  if (p.season_limited) list.push(chip(T('b.season'), SEASON));
   const kr = list.slice(0, 2).join('');
   if (p.intl_ship) return kr;
   // 해외 국가 선택 시에만 "국내 전용" 표시 (2번째 자리 고정)
@@ -48,17 +50,19 @@ export function statusLine(p, st, T, today) {
   const s = status(p, st);
   if (s === 'soldout') return T('s.notify');
   if (s === 'preorder') return T('s.dday', { n: Math.max(dday(p, today), 0) });
-  if (p.limit_per_account) return T('s.limit', { n: p.limit_per_account });
   return '&nbsp;';
 }
-// 진열: 관리자 지정 순서가 있으면 그대로, 없으면 제안 상품 → 예약(마감 임박순) → 판매 중 → 품절
-export function sortProducts(list, st) {
+// 진열: 품절은 항상 맨 뒤. closing(기본) = 신규 MD → 예약(마감 임박순) → 판매 중 / new = 등록일 최신순 / popular = 판매량순
+export function sortProducts(list, st, mode = 'closing') {
+  const so = (p) => (status(p, st) === 'soldout' ? 1 : 0);
+  if (mode === 'new') return [...list].sort((a, b) => so(a) - so(b) || b.listed.localeCompare(a.listed) || a.sort - b.sort);
+  if (mode === 'popular') return [...list].sort((a, b) => so(a) - so(b) || b.sales - a.sales);
   if (st?.order?.length) {
     const ix = (p) => { const i = st.order.indexOf(p.id); return i < 0 ? 999 : i; };
     return [...list].sort((a, b) => ix(a) - ix(b));
   }
-  const rank = (p) => { const s = status(p, st); return s === 'soldout' ? 3 : p.proposal ? 0 : s === 'preorder' ? 1 : 2; };
-  return [...list].sort((a, b) => rank(a) - rank(b) || (rank(a) === 1 ? a.preorder_end.localeCompare(b.preorder_end) : 0) || a.sort - b.sort);
+  const rank = (p) => { const s = status(p, st); return s === 'soldout' ? 3 : s === 'preorder' ? 0 : p.proposal ? 1 : 2; };
+  return [...list].sort((a, b) => rank(a) - rank(b) || (rank(a) === 0 ? a.preorder_end.localeCompare(b.preorder_end) : 0) || a.sort - b.sort);
 }
 export function imgBox(src, name, cls = '') {
   return `<div class="ph ${cls}"><span>${esc(name)}</span>${src ? `<img src="${src}" alt="" loading="lazy" decoding="async">` : ''}</div>`;
@@ -69,10 +73,10 @@ export function cardHTML(p, st, T, today) {
   ${imgBox(p.img, `${p.id}_main.jpg`, `aspect-square ${so ? 'opacity-40' : ''}`)}
   <div class="mt-2 h-5 flex gap-1 overflow-hidden">${badges(p, st, T)}</div>
   <p class="mt-1 text-[13px] leading-snug line-clamp-2 min-h-[2.6em]">${dual(p.name_ko, p.name_en)}</p>
-  <p class="mt-1 font-bold tabular-nums ${so ? 'text-neutral-400' : ''}">${price(p)}</p>
+  <p class="mt-1 text-[15px] font-bold tabular-nums ${so ? 'text-neutral-400' : ''}">${price(p)}</p>
   <p class="text-[11px] text-neutral-500">${statusLine(p, st, T, today)}</p></a>`;
 }
-export const gridHTML = (list, st, T, today) => sortProducts(list, st).map((p) => cardHTML(p, st, T, today)).join('');
+export const gridHTML = (list, st, T, today, mode) => sortProducts(list, st, mode).map((p) => cardHTML(p, st, T, today)).join('');
 
 // 상세: 상태별 구매 버튼 1개 (품절 시 재입고 알림으로 대체)
 export function buyHTML(p, st, T) {
@@ -83,13 +87,12 @@ export function buyHTML(p, st, T) {
   const qty = `<div class="mt-3 flex items-center justify-between"><span class="text-sm">${T('d.qty')}</span>
   <div class="flex items-center border border-neutral-300 rounded"><button type="button" data-act="qty" data-d="-1" class="w-10 h-10" aria-label="-">−</button><span id="qty" class="w-10 text-center tabular-nums">1</span><button type="button" data-act="qty" data-d="1" class="w-10 h-10" aria-label="+">+</button></div></div>
   ${p.limit_per_account ? `<p class="mt-1 text-xs text-neutral-500 text-right">${T('d.limit', { n: p.limit_per_account })}</p>` : ''}`;
+  const cart = '<button type="button" data-act="cart" class="btn btn-line !w-14 flex-none !px-0" aria-label="Add to cart"><svg class="h-6 w-6 fill-none stroke-current" viewBox="0 0 24 24" stroke-width="1.6"><path d="M5 8h14l-1.2 12H6.2L5 8z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/><path d="M12 11v6M9 14h6"/></svg></button>';
   const main = s === 'soldout'
     ? `<button type="button" data-act="notify" class="btn btn-line w-full">${T('d.notify')}</button>`
-    : `<button type="button" data-act="buy" class="btn btn-ink w-full">${T(s === 'preorder' ? 'd.pre' : 'd.buy')}</button>`;
+    : `<div class="flex gap-2">${cart}<button type="button" data-act="order" class="btn btn-ink min-w-0 flex-1">${T(s === 'preorder' ? 'd.pre' : 'd.buy')}</button></div>`;
   const btn = p.intl_ship || s === 'soldout' ? main
     : `<div class="kr">${main}</div><div class="intl"><button type="button" disabled class="btn w-full bg-neutral-200 text-neutral-500 cursor-not-allowed">${T('d.kronly')}</button></div>`;
   return `<div>${s === 'soldout' ? '' : opts + qty}</div>
-  <details class="acc mt-4"><summary>${T('d.refund.t')}</summary><p>${T('d.refund')}</p></details>
-  <div id="buybtn" class="mt-3">${btn}</div>
-  <details class="acc mt-3"><summary>${T('d.warranty.t')}</summary><p>${T('d.warranty')}</p></details>`;
+  <div id="buybtn" class="mt-4">${btn}</div>`;
 }

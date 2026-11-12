@@ -85,8 +85,8 @@
    "album_en": "[Draft Album Title]",
    "intro_ko": "가안 소개 문구입니다. 공식 앨범 소개 1줄로 교체됩니다.",
    "intro_en": "Draft intro line. To be replaced with the official album introduction.",
-   "feature": "ateez_01",
-   "first_tab": "MD"
+   "feature": "ateez_album_2",
+   "first_tab": "ALL"
   },
   {
    "id": "xikers",
@@ -110,17 +110,18 @@
    "title_en": "ATEEZ Full Album Pre-order",
    "cta_ko": "지금 예약",
    "cta_en": "Pre-order now",
-   "href": "/product/ateez_01/",
-   "dday": "ateez_01"
+   "href": "/product/ateez_album_2/",
+   "dday": "ateez_album_2"
   },
   {
    "img": "ateez_banner2",
    "label": "new md",
-   "title_ko": "새 MD 제안 상품 공개",
-   "title_en": "New MD Lineup",
-   "cta_ko": "상품 보기",
-   "cta_en": "View items",
-   "href": "/artist/ateez/?tab=MD"
+   "title_ko": "신규 MD 예약 판매",
+   "title_en": "New MD Pre-order",
+   "cta_ko": "지금 예약",
+   "cta_en": "Pre-order now",
+   "href": "/product/ateez_md_1/",
+   "dday": "ateez_md_1"
   },
   {
    "img": "ateez_banner3",
@@ -136,12 +137,12 @@
   {
    "ko": "ATEEZ 정규 앨범 예약",
    "en": "ATEEZ Full Album Pre-order",
-   "href": "/product/ateez_01/"
+   "href": "/product/ateez_album_2/"
   },
   {
    "ko": "2027 시즌 그리팅",
    "en": "2027 Season's Greetings",
-   "href": "/product/ateez_04/"
+   "href": "/product/ateez_sg_2/"
   },
   {
    "ko": "투어 MD",

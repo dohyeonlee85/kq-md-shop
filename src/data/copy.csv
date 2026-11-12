@@ -161,3 +161,23 @@ a.c.send,알림 발송,Send alert
 a.notify.note,발주 참고값 = 신청 수 × 재입고 후 구매 전환율 {r}%(추정). 품절 상품 상세에서 [재입고 알림]을 누르면 신청 수가 늘어납니다.,Suggested qty = requests × post-restock conversion rate {r}% (estimate). Tapping [Notify me] on a sold-out product page increases the request count.
 a.send.toast,재입고 후 발송되는 알림입니다. 본 데모에서는 실제 발송되지 않습니다.,This alert is sent after restock. It is not actually sent in this demo.
 a.send.need,재고 입력 후 발송할 수 있습니다.,Enter stock before sending.
+sort.label,정렬,Sort
+sort.closing,마감임박순,Closing soon
+sort.new,신상품순,Newest
+sort.popular,인기순,Most popular
+d.cart,장바구니 담기,Add to cart
+toast.order,주문 화면은 본 데모 범위에 포함되어 있지 않습니다.,The checkout screen is not included in this demo.
+l.title,로그인,Sign in
+l.member,회원 로그인,Member sign-in
+l.guest,비회원 주문조회,Guest order lookup
+l.id,아이디(이메일),ID (email)
+l.pw,비밀번호,Password
+l.login,로그인,Sign in
+l.join,회원가입,Create account
+l.find,아이디·비밀번호 찾기,Find ID / password
+l.name,주문자명,Name on order
+l.ono,주문번호,Order number
+l.lookup,주문 조회,Look up order
+l.note,로그인 후 나의 주문에서 주문 내역·배송 조회·주소 변경을 이용하실 수 있습니다.,"After signing in, you can view order history, track shipments, and change your address in My Orders."
+l.toast,"본 데모에서는 로그인·주문 조회가 동작하지 않으며, 입력값은 저장·전송되지 않습니다.",Sign-in and order lookup do not work in this demo. Inputs are not stored or sent.
+top.label,맨 위로,Back to top

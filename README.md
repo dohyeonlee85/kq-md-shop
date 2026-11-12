@@ -14,11 +14,14 @@ Astro + Tailwind + Swiper 정적 사이트. Cloudflare Pages 배포. 결제 기�
 - `products.csv` 규칙: `options`·`stock`은 `|`로 구분(예: `A ver.|B ver.` / `820|640`), 날짜는 `2027-01-10 23:59`(KST), `sale_type`은 `preorder` 또는 `regular`, `intl_ship` 0 = 국내 전용.
 - 상태 딱지는 재고에서 자동 계산: 재고 0 = SOLD OUT, 예약 상품 = PRE-ORDER, 재고 ≤ `low_stock_at` = LOW STOCK.
 - 아티스트 구역 배경색은 `poster/{artist}_poster.jpg`에서 빌드 시 자동 추출(사진 없으면 회색).
-- 관리자 데모(`/admin/`) 입력값은 보는 사람 브라우저에만 저장, 매일 초기화.
+- 정렬: `listed`(등록일) = 신상품순, `sales`(판매량 가안) = 인기순.
+- 관리자 데모(`/admin/`, 쇼핑몰 메뉴에 링크 없음·주소 직접 입력) 입력값은 보는 사람 브라우저에만 저장, 매일 초기화.
 
 ## 사진 파일명
 
-`banner/ateez_banner1~3.jpg` · `poster/ateez_poster.jpg` · `product/ateez_01~08_main.jpg` · `product/ateez_01~08_detail1~2.jpg` · `scenario/s1_1~s3_4.jpg`
+`banner/ateez_banner1~3.jpg` · `poster/ateez_poster.jpg` · `product/{상품 id}_main.jpg` · `product/{상품 id}_detail1~2.jpg` · `scenario/s1_1~s3_4.jpg`
+
+상품 id = `ateez_{album|md|tour|photo|sg}_{1~4}` · `ateez_member_1` (각 카테고리 1번 = 신규 MD, 2~4번 = 가상 상품)
 
 ## Cloudflare Pages 설정
 

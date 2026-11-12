@@ -4,7 +4,7 @@ import { copy, site, img } from '../lib/data.js';
 import { makeT } from '../lib/logic.js';
 const T = makeT(copy);
 ---
-<Base title="Design Scenarios | KQ MD SHOP" region={false}>
+<Base title="Design Scenarios | KQ MD SHOP">
   <div class="wrap mt-8">
     <h1 class="text-3xl font-black tracking-tight md:text-5xl" set:html={T('sc.title')} />
     <p class="mt-3 text-neutral-600" set:html={T('sc.lead')} />
@@ -27,7 +27,6 @@ const T = makeT(copy);
     ))}
     <div class="mt-12 flex flex-wrap gap-2">
       <a href="/" class="btn btn-ink !h-11">KQ MD SHOP</a>
-      <a href="/admin/" class="btn btn-line !h-11" set:html={T('nav.admin')} />
     </div>
   </div>
 </Base>

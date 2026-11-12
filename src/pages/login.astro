@@ -1,0 +1,38 @@
+---
+import Base from '../layouts/Base.astro';
+import { copy } from '../lib/data.js';
+import { makeT } from '../lib/logic.js';
+const T = makeT(copy);
+const inp = 'mt-1 h-11 w-full rounded border border-neutral-300 px-3';
+---
+<Base title="Sign in | KQ MD SHOP">
+  <div class="wrap mt-8 max-w-md">
+    <h1 class="text-2xl font-black tracking-tight" set:html={T('l.title')} />
+    <!-- 사람 아이콘 → 회원 로그인 / 비회원 주문조회 → 나의 주문 -->
+    <div class="tabs mt-5 border-b border-neutral-200" role="tablist" id="ltabs">
+      <button type="button" role="tab" class="tab" data-p="member" aria-selected="true" set:html={T('l.member')} />
+      <button type="button" role="tab" class="tab" data-p="guest" aria-selected="false" set:html={T('l.guest')} />
+    </div>
+    <form id="p-member" class="mt-5 space-y-3">
+      <label class="block text-xs text-neutral-500"><Fragment set:html={T('l.id')} /><input type="email" autocomplete="off" class={inp} /></label>
+      <label class="block text-xs text-neutral-500"><Fragment set:html={T('l.pw')} /><input type="password" autocomplete="off" class={inp} /></label>
+      <button type="submit" class="btn btn-ink w-full" set:html={T('l.login')} />
+      <p class="flex justify-center gap-4 text-xs text-neutral-500"><span set:html={T('l.join')} /><span set:html={T('l.find')} /></p>
+    </form>
+    <form id="p-guest" class="mt-5 hidden space-y-3">
+      <label class="block text-xs text-neutral-500"><Fragment set:html={T('l.name')} /><input type="text" autocomplete="off" class={inp} /></label>
+      <label class="block text-xs text-neutral-500"><Fragment set:html={T('l.ono')} /><input type="text" autocomplete="off" class={inp} /></label>
+      <button type="submit" class="btn btn-ink w-full" set:html={T('l.lookup')} />
+    </form>
+    <p class="mt-6 text-xs leading-relaxed text-neutral-500" set:html={T('l.note')} />
+  </div>
+  <script>
+    import { toast, T } from '../lib/app.js';
+    const tabs = [...document.querySelectorAll('#ltabs .tab')];
+    tabs.forEach((b) => b.addEventListener('click', () => {
+      tabs.forEach((x) => x.setAttribute('aria-selected', String(x === b)));
+      ['member', 'guest'].forEach((p) => document.getElementById('p-' + p).classList.toggle('hidden', p !== b.dataset.p));
+    }));
+    document.querySelectorAll('form').forEach((f) => f.addEventListener('submit', (e) => { e.preventDefault(); f.reset(); toast(T('l.toast')); }));
+  </script>
+</Base>

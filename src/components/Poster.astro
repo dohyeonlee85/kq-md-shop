@@ -10,19 +10,19 @@ const nw = list.filter((p) => p.proposal).length;
 const src = img('poster', `${artist.id}_poster`);
 const bg = await seasonColor(artist.id);
 ---
-<section class:list={['relative overflow-hidden text-white', full ? 'aspect-square md:aspect-[21/8]' : 'aspect-square md:aspect-[21/8] md:rounded-2xl']} style={`background:${bg}`}>
+<section class:list={['relative overflow-hidden text-white', full ? 'aspect-[4/3] md:aspect-[21/7]' : 'aspect-square md:aspect-[21/7] md:rounded-2xl']} style={`background:${bg}`}>
   <div class="ph dark absolute inset-y-0 right-0 w-full md:w-3/5 !bg-transparent">
     <span class="self-start mt-20 md:mt-0 md:self-center">{artist.id}_poster.jpg</span>
     {src && <img src={src} alt="" loading={full ? 'eager' : 'lazy'} />}
   </div>
   <div class="absolute inset-0" style={`background:linear-gradient(0deg, ${bg} 8%, transparent 60%)`}></div>
   <div class="absolute inset-0 hidden md:block" style={`background:linear-gradient(90deg, ${bg} 38%, transparent 70%)`}></div>
-  <div class="absolute inset-x-0 bottom-0 p-6 md:inset-y-0 md:flex md:w-1/2 md:flex-col md:justify-center md:p-12">
+  <div class="absolute inset-x-0 bottom-0 p-5 md:inset-y-0 md:flex md:w-1/2 md:flex-col md:justify-center md:p-10">
     <p class="text-sm font-bold tracking-[.2em]">{artist.name}</p>
-    <h2 class="mt-2 text-4xl font-black leading-[1.05] tracking-tight md:text-6xl"><span class="ko">{artist.album_ko}</span><span class="en">{artist.album_en}</span></h2>
-    <p class="mt-3 text-sm text-white/85 md:text-base"><span class="ko">{artist.intro_ko}</span><span class="en">{artist.intro_en}</span></p>
+    <h2 class="mt-2 text-[28px] font-black leading-[1.1] tracking-tight md:text-[44px]"><span class="ko">{artist.album_ko}</span><span class="en">{artist.album_en}</span></h2>
+    <p class="mt-2 text-sm text-white/85"><span class="ko">{artist.intro_ko}</span><span class="en">{artist.intro_en}</span></p>
     <p class="mt-2 text-xs text-white/70"><Fragment set:html={T('main.status.pre')} /> {pre} · NEW {nw}</p>
-    <div class="mt-5 flex gap-2">
+    <div class="mt-4 flex gap-2">
       <a href={`/product/${artist.feature}/`} data-click="poster" class="btn btn-white !h-11" set:html={T('main.preorder')} />
       {!full && <a href={`/artist/${artist.id}/`} class="btn !h-11 border border-white/70" set:html={T('main.more')} />}
     </div>

@@ -32,7 +32,7 @@ export function img(folder, name) {
   return null;
 }
 
-const NUM = ['sort', 'proposal', 'price_krw', 'price_usd', 'low_stock_at', 'limit_per_account', 'intl_ship', 'bonus', 'season_limited', 'chart', 'ship_days', 'preorder_count', 'order_qty', 'today_orders_kr', 'today_orders_intl', 'notify_kr', 'notify_intl'];
+const NUM = ['sort', 'proposal', 'price_krw', 'price_usd', 'low_stock_at', 'limit_per_account', 'intl_ship', 'bonus', 'season_limited', 'chart', 'ship_days', 'sales', 'preorder_count', 'order_qty', 'today_orders_kr', 'today_orders_intl', 'notify_kr', 'notify_intl'];
 export const products = parseCSV(read('products.csv')).map((p) => {
   for (const k of NUM) p[k] = Number(p[k] || 0);
   p.options = p.options ? p.options.split('|').map((s) => s.trim()) : [''];
