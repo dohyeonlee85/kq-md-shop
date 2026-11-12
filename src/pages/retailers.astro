@@ -1,0 +1,20 @@
+---
+import Base from '../layouts/Base.astro';
+import { copy, site } from '../lib/data.js';
+import { makeT } from '../lib/logic.js';
+const T = makeT(copy);
+---
+<Base title="Official Retailers | KQ MD SHOP">
+  <div class="wrap mt-8 max-w-3xl">
+    <h1 class="text-3xl font-black tracking-tight" set:html={T('r.title')} />
+    <p class="mt-3 text-sm leading-relaxed text-neutral-600" set:html={T('r.lead')} />
+    <table class="adm mt-6">
+      <thead><tr><th set:html={T('r.country')} /><th set:html={T('r.name')} /><th set:html={T('r.type')} /></tr></thead>
+      <tbody>
+        {site.retailers.map((r) => (
+          <tr><td><span class="ko">{r.c_ko}</span><span class="en">{r.c_en}</span></td><td class="font-bold">{r.name}</td><td><span class="ko">{r.t_ko}</span><span class="en">{r.t_en}</span></td></tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+</Base>

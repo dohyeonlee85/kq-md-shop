@@ -1,0 +1,34 @@
+---
+import Base from '../layouts/Base.astro';
+import { copy } from '../lib/data.js';
+import { makeT } from '../lib/logic.js';
+const T = makeT(copy);
+const secs = [
+  ['notice', 'f.notice', ['h.notice']],
+  ['inquiry', 'f.inquiry', ['h.inquiry']],
+  ['cs', 'f.cs', ['d.cs']],
+  ['shipping', 'f.shipping', ['d.shipping', 'd.duty']],
+  ['exchange', 'f.exchange', ['d.refund']],
+  ['address', 'f.address', ['h.address']],
+  ['track', 'f.track', ['h.track']],
+  ['terms', 'f.terms', ['h.terms']],
+  ['privacy', 'f.privacy', ['h.privacy']],
+  ['youth', 'f.youth', ['h.youth']],
+  ['cookie', 'f.cookie', ['h.cookie']],
+];
+---
+<Base title="Support | KQ MD SHOP">
+  <div class="wrap mt-8 max-w-3xl">
+    <h1 class="text-3xl font-black tracking-tight" set:html={T('h.title')} />
+    <section id="faq" class="mt-10 scroll-mt-20">
+      <h2 class="mb-2 text-lg font-bold" set:html={T('f.faq')} />
+      {[1, 2, 3, 4, 5].map((i) => <details class="acc"><summary set:html={T(`faq.q${i}`)} /><p set:html={T(`faq.a${i}`)} /></details>)}
+    </section>
+    {secs.map(([id, h, ps]) => (
+      <section id={id} class="mt-10 scroll-mt-20">
+        <h2 class="text-lg font-bold" set:html={T(h)} />
+        {ps.map((k) => <p class="mt-2 text-sm leading-relaxed text-neutral-700" set:html={T(k)} />)}
+      </section>
+    ))}
+  </div>
+</Base>

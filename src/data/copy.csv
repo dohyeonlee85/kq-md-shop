@@ -1,0 +1,163 @@
+﻿key,ko,en
+footer.notice,"본 사이트는 KQ엔터테인먼트 MD사업팀 지원을 위해 제작한 콘셉트 목업이며, 판매·상업 목적이 없습니다.",This site is a concept mock-up created for a job application to KQ Entertainment's MD Business Team and has no sales or commercial purpose.
+region.shipto,배송지,Ship to
+region.change,변경,Change
+region.country,배송 국가,Shipping country
+region.lang,언어,Language
+region.demo,(데모버전),(Demo)
+region.close,닫기,Close
+region.intl,"배송비 $XX부터 · 관세·부가세 별도, 구매자 부담",Shipping from $XX · Duties and taxes paid by buyer
+nav.artists,KQ 아티스트,KQ Artists
+nav.menu,메뉴,Menu
+nav.search,상품 검색,Search products
+nav.shop,ATEEZ 샵,ATEEZ Shop
+nav.scenario,설계 시나리오,Design Scenarios
+nav.admin,관리자 데모,Admin Demo
+nav.mypage,주문·배송 조회,Order Tracking
+nav.noresult,검색 결과가 없습니다.,No results found.
+banner.pause,일시정지,Pause
+banner.play,재생,Play
+main.now,지금 KQ,Now at KQ
+main.more,더보기,View all
+main.preorder,예약하기,Pre-order
+main.status.pre,예약 중,Pre-order
+main.status.new,NEW,NEW
+shop.top,맨 위로,Back to top
+shop.empty,진열 중인 상품이 없습니다.,No products available.
+b.bonus,특전,Bonus
+b.season,시즌 한정,Seasonal
+b.kronly,국내 전용,Korea only
+s.dday,예약 마감 D-{n},Pre-order ends D-{n}
+s.limit,계정당 {n}개,{n} per account
+s.notify,재입고 알림,Restock alert
+d.back,뒤로,Back
+d.official,KQ 공식 상품 (예시),Official KQ Merchandise (sample)
+d.retailers,공식 판매처 안내,Official retailers
+d.schedule,판매 일정 (KST),Sales schedule (KST)
+d.t1,예약 시작,Pre-order opens
+d.t2,예약 마감 · 특전,Pre-order closes · Bonus
+d.t3,발매일,Release
+d.t4,발송 시작,Shipping starts
+d.done,완료,Done
+d.local,특전 마감 현지 시각,Bonus deadline in your local time
+d.ship,결제 후 {n}영업일 내 발송(예시),Ships within {n} business days of payment (sample)
+d.option,옵션 선택,Select option
+d.qty,수량,Quantity
+d.limit,계정당 {n}개 구매 제한,Limit {n} per account
+d.buy,구매하기,Buy now
+d.pre,예약주문,Pre-order
+d.notify,재입고 알림,Notify me
+d.kronly,국내 전용 상품,Korea only
+d.refund.t,교환 · 환불 규정,Exchange & Refund Policy
+d.refund,"상품 수령 후 7일 이내에 교환·환불을 신청하실 수 있습니다. 단, 포장 개봉 후 가치가 훼손된 경우와 주문 제작 상품은 제외됩니다. 불량·오배송 상품은 배송비 부담 없이 교환·환불해 드립니다. 자세한 기준은 고객센터에서 안내해 드립니다.","Exchanges and refunds may be requested within 7 days of delivery, except for items whose value has been diminished after opening and made-to-order items. Defective or incorrectly delivered items are exchanged or refunded at no shipping cost to the buyer. Please contact Customer Service for details."
+d.warranty.t,품질보증 기준 · A/S 책임자,Warranty & Service
+d.warranty,품질보증 기준은 공정거래위원회 소비자분쟁해결기준에 따릅니다. A/S 책임자·연락처: 고객센터 1234-5678 (예시),Warranty follows the consumer dispute resolution standards of the Korea Fair Trade Commission. Service contact: Customer Service +82-1234-5678 (sample)
+d.info,상품 정보,Product information
+d.components,구성,Components
+d.random,랜덤 구성,Random item
+d.size,사이즈,Size
+d.material,소재,Material
+d.origin,제조국 · 제조자,Origin · Manufacturer
+d.tracks,수록곡,Track list
+d.release,발매일,Release date
+d.caution,주의사항,Notice
+d.chart,차트 반영,Chart
+d.chartv,국내외 공식 판매처 구매분 반영,Counted for purchases at official retailers
+d.from,발송지,Ships from
+d.fromv,대한민국,Republic of Korea
+d.shipping.t,배송 · 관세,Shipping & Duties
+d.shipping,"해외 배송 시 관세·부가세는 상품 금액에 포함되어 있지 않으며, 구매자가 부담합니다. 배송비는 주문 단계에서 국가·배송 방법 선택 시 확정 금액으로 표시됩니다.","For international orders, duties and taxes are not included in the product price and are paid by the buyer. The shipping fee is shown as a fixed amount at checkout once the country and shipping method are selected."
+d.duty,"관세·부가세는 국가별로 상이하며, 현지 세관 기준에 따라 구매자가 부담합니다.",Duties and taxes vary by country and are paid by the buyer according to local customs rules.
+d.cs.t,고객센터,Customer Service
+d.cs,"고객센터 1234-5678 (평일 10:00–17:00 KST, 점심 12:30–13:30) · 문의 게시판 운영","Customer Service +82-1234-5678 (Weekdays 10:00–17:00 KST, lunch 12:30–13:30) · Online inquiry board available"
+toast.cart,장바구니에 담았습니다. 본 데모에는 결제 기능이 없습니다.,Added to cart. This demo has no payment function.
+toast.cartview,장바구니·주문 화면은 본 데모 범위에 포함되어 있지 않습니다.,Cart and checkout screens are not included in this demo.
+toast.notify,재입고 알림을 신청했습니다. 본 데모에서는 알림이 실제 발송되지 않습니다.,Restock alert requested. Notifications are not actually sent in this demo.
+toast.limit,계정당 구매 제한 수량입니다.,Purchase limit per account reached.
+toast.option,옵션을 선택해 주십시오.,Please select an option.
+f.support,고객 지원,Support
+f.notice,공지사항,Notice
+f.faq,자주 묻는 질문,FAQ
+f.inquiry,1:1 문의,1:1 Inquiry
+f.cs,고객센터 안내,Customer Service
+f.guide,쇼핑 안내,Shopping Guide
+f.shipping,배송 · 해외배송 · 관세,Shipping & Duties
+f.exchange,교환 · 반품,Exchange & Return
+f.address,주소 변경,Address Change
+f.track,주문 · 배송 조회,Order Tracking
+f.retailers,공식 판매처 안내,Official Retailers
+f.policy,약관,Policies
+f.terms,이용약관,Terms of Use
+f.privacy,개인정보처리방침,Privacy Policy
+f.youth,청소년 보호정책,Youth Protection Policy
+f.cookie,쿠키 정책,Cookie Policy
+f.biz,사업자 정보,Business Information
+f.bizinfo,상호 KQ MD SHOP(예시) · 대표 홍길동 · 사업자등록번호 000-00-00000 · 통신판매업신고 제0000-서울-0000호 · 주소 서울특별시 ○○구 ○○로 00 · 개인정보보호책임자 홍길동,"KQ MD SHOP (sample) · CEO Gildong Hong · Business Reg. No. 000-00-00000 · Seoul, Republic of Korea"
+f.badge,공식 스토어(예시),Official Store (Sample)
+f.credit,이미지: KQ SHOP,Images: KQ SHOP
+h.title,고객 지원 · 쇼핑 안내,Support & Shopping Guide
+h.notice,[안내] 2027년 1월 발매 앨범 예약 판매 일정은 상품 상세의 판매 일정에서 확인하실 수 있습니다.,[Notice] The pre-order schedule for the January 2027 album release is shown in the sales schedule on the product page.
+faq.q1,배송 조회는 어디에서 하나요?,Where can I track my order?
+faq.a1,마이페이지 > 주문 내역에서 확인하실 수 있습니다. 비회원 주문은 로그인 화면의 비회원 주문조회를 이용해 주십시오.,Go to My Page > Order History. Guest orders can be tracked via Guest Order Lookup on the sign-in page.
+faq.q2,배송지 주소를 변경할 수 있나요?,Can I change my shipping address?
+faq.a2,출고 준비 전까지 마이페이지에서 직접 변경하실 수 있습니다. 배송 단계로 넘어간 뒤에는 변경이 불가합니다.,You may change it yourself on My Page until the order enters shipping preparation. It cannot be changed afterward.
+faq.q3,주문을 취소하고 싶습니다.,How do I cancel an order?
+faq.a3,취소는 고객센터를 통해 처리해 드립니다.,Cancellations are handled through Customer Service.
+faq.q4,랜덤 구성 상품은 무엇이 들어 있나요?,What is inside a random item?
+faq.a4,"상품별 안내된 종수 중 1종이 무작위로 들어 있으며, 종수·수량·확률은 상품 상세에서 확인하실 수 있습니다. 확률이 공개되지 않은 상품은 ""미공개""로 표시됩니다.","One of the listed designs is included at random. The number of designs, quantity, and odds are shown on the product page; undisclosed odds are marked ""Not disclosed."""
+faq.q5,품절 상품은 다시 구매할 수 있나요?,Can I buy a sold-out item again?
+faq.a5,상품 페이지의 [재입고 알림] 버튼을 눌러 신청하시면 재입고 시 알려 드립니다. ※ 본 데모에서는 알림이 실제 발송되지 않습니다.,Tap [Notify me] on the product page to be notified on restock. (Notifications are not actually sent in this demo.)
+h.inquiry,1:1 문의는 마이페이지 > 1:1 문의에서 접수하실 수 있습니다. 주문번호를 함께 기재해 주시면 빠르게 처리해 드립니다. 답변은 영업일 기준 1~2일 이내에 드립니다.,1:1 inquiries can be submitted via My Page > 1:1 Inquiry. Please include your order number for faster handling. We reply within 1–2 business days.
+h.address,배송지 주소는 출고 준비 전까지 마이페이지 주문 상세에서 직접 변경하실 수 있습니다. 출고 준비 단계로 넘어간 주문은 변경이 불가합니다.,You may change your shipping address yourself in the order details on My Page until the order enters shipping preparation. It cannot be changed after that stage.
+h.track,"회원 주문은 마이페이지 > 주문 내역에서, 비회원 주문은 로그인 화면의 비회원 주문조회에서 확인하실 수 있습니다. 주문 상세 화면은 본 데모 범위에 포함되어 있지 않습니다.",Member orders are shown in My Page > Order History; guest orders via Guest Order Lookup on the sign-in page. The order detail screen is not included in this demo.
+h.terms,[가안] 제1조(목적) 본 약관은 KQ MD SHOP(예시)이 제공하는 서비스의 이용 조건과 절차를 정함을 목적으로 합니다. 제2조(효력) 본 약관은 서비스 화면에 게시함으로써 효력이 발생합니다. 제3조(준거법) 본 약관은 대한민국 법령에 따릅니다.,[Draft] Article 1 (Purpose) These Terms set out the conditions and procedures for using the services provided by KQ MD SHOP (sample). Article 2 (Effect) These Terms take effect when posted on the service. Article 3 (Governing law) These Terms are governed by the laws of the Republic of Korea.
+h.privacy,[가안] 제1조(수집 항목) 본 데모 사이트는 개인정보를 수집하지 않습니다. 제2조(저장 위치) 언어·국가 설정과 데모 입력값은 이용자의 브라우저에만 저장됩니다. 제3조(문의) 개인정보보호책임자 홍길동(예시).,"[Draft] Article 1 (Items collected) This demo site does not collect personal information. Article 2 (Storage) Language, country settings, and demo inputs are stored only in your browser. Article 3 (Contact) Privacy Officer: Gildong Hong (sample)."
+h.youth,"[가안] 본 사이트는 청소년에게 유해한 정보를 제공하지 않으며, 관련 법령에 따라 청소년 보호정책을 운영합니다.",[Draft] This site does not provide content harmful to minors and operates a youth protection policy in accordance with applicable laws.
+h.cookie,"[가안] 본 데모 사이트는 쿠키를 사용하지 않으며, 설정값은 브라우저 저장소에만 보관됩니다.",[Draft] This demo site does not use cookies; settings are kept only in browser storage.
+r.title,공식 판매처 안내,Official Retailers
+r.lead,아래 판매처에서 구매하신 상품은 공식 상품입니다. 판매처별 재고·가격·배송 조건은 각 판매처 기준을 따릅니다. (판매처명은 모두 예시),"Items purchased from the retailers below are official merchandise. Stock, prices, and shipping terms follow each retailer. (All retailer names are samples.)"
+r.country,국가,Country
+r.name,판매처,Retailer
+r.type,유형,Type
+sc.title,설계 시나리오,Design Scenarios
+sc.lead,세 가지 이용 흐름으로 화면 설계 이유를 설명합니다.,Three user flows that explain why each screen is designed this way.
+a.title,관리자 데모,Admin Demo
+a.note,입력값은 이 브라우저에만 저장되며 매일 초기화됩니다.,Inputs are stored only in this browser and reset daily.
+a.reset,초기화,Reset
+a.toshop,샵에서 확인,View in shop
+a.m1,대시보드,Dashboard
+a.m2,재고 · 진열,Stock & Display
+a.m3,재입고 알림,Restock Alerts
+a.sched,예약 일정,Pre-order schedule
+a.pending,처리 대기,Pending
+a.pending.low,LOW STOCK {n}개,LOW STOCK {n}
+a.pending.notify,재입고 알림 대기 {n}건,{n} restock requests waiting
+a.k1,오늘 주문,Orders today
+a.k2,예약 누계 / 발주 수량,Pre-orders / Ordered qty
+a.k3,LOW STOCK,LOW STOCK
+a.k4,재입고 알림 신청,Restock requests
+a.k5,클릭,Clicks
+a.k5d,배너 {b} · 포스터 {p},Banner {b} · Poster {p}
+a.split,국내 {k} · 해외 {i},Korea {k} · Overseas {i}
+a.7d,최근 7일 주문,"Orders, last 7 days"
+a.c.order,순서,Order
+a.c.product,상품,Product
+a.c.option,옵션,Option
+a.c.stock,재고,Stock
+a.c.low,LOW STOCK 기준,LOW STOCK at
+a.c.status,상태(자동),Status (auto)
+a.stock.note,재고를 수정하면 메인·샵·상세의 딱지와 구매 버튼에 바로 반영됩니다. 진열은 자동(예약 마감 임박 → 판매 중 → 품절)이며 ↑↓로 직접 변경할 수 있습니다.,"Stock edits are reflected immediately in badges and purchase buttons on the main, shop, and product pages. Display order is automatic (pre-order closing soon → on sale → sold out) and can be changed with ↑↓."
+a.csv.down,CSV 내려받기,Download CSV
+a.csv.up,CSV 올리기,Upload CSV
+a.csv.ok,CSV를 반영했습니다.,CSV applied.
+a.csv.err,"CSV 형식을 확인해 주십시오. (id,option,stock)","Please check the CSV format. (id,option,stock)"
+a.c.req,신청 수,Requests
+a.c.kr,국내,Korea
+a.c.intl,해외,Overseas
+a.c.cur,현재 재고,Current stock
+a.c.ref,발주 참고값(추정),Suggested qty (estimate)
+a.c.memo,발주 메모,Order memo
+a.c.send,알림 발송,Send alert
+a.notify.note,발주 참고값 = 신청 수 × 재입고 후 구매 전환율 {r}%(추정). 품절 상품 상세에서 [재입고 알림]을 누르면 신청 수가 늘어납니다.,Suggested qty = requests × post-restock conversion rate {r}% (estimate). Tapping [Notify me] on a sold-out product page increases the request count.
+a.send.toast,재입고 후 발송되는 알림입니다. 본 데모에서는 실제 발송되지 않습니다.,This alert is sent after restock. It is not actually sent in this demo.
+a.send.need,재고 입력 후 발송할 수 있습니다.,Enter stock before sending.

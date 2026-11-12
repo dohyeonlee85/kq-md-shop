@@ -1,0 +1,128 @@
+---
+import Base from '../layouts/Base.astro';
+import { copy } from '../lib/data.js';
+import { makeT } from '../lib/logic.js';
+const T = makeT(copy);
+const menu = [['a.m1', 'dash'], ['a.m2', 'stock'], ['a.m3', 'restock']];
+---
+<Base title="Admin | KQ MD SHOP" region={false}>
+  <div class="wrap mt-6 lg:grid lg:grid-cols-[200px_1fr] lg:gap-10">
+    <aside class="lg:sticky lg:top-20 lg:self-start">
+      <p class="text-xs font-bold tracking-[.2em] text-neutral-500">ADMIN</p>
+      <h1 class="text-2xl font-black" set:html={T('a.title')} />
+      <nav class="mt-4 flex gap-4 overflow-x-auto whitespace-nowrap text-sm font-bold lg:flex-col lg:gap-3">
+        {menu.map(([k, id]) => <a href={`#${id}`} class="hover:underline" set:html={T(k)} />)}
+      </nav>
+      <p class="mt-4 text-xs leading-relaxed text-neutral-500" set:html={T('a.note')} />
+      <div class="mt-3 flex gap-2 lg:flex-col">
+        <button type="button" id="a-reset" class="btn btn-line !h-9 !px-3 text-sm" set:html={T('a.reset')} />
+        <a href="/artist/ateez/" class="btn btn-ink !h-9 !px-3 text-sm" set:html={T('a.toshop')} />
+      </div>
+    </aside>
+    <div class="mt-8 min-w-0 space-y-14 lg:mt-0">
+      <section id="dash" class="scroll-mt-20"><h2 class="text-lg font-bold" set:html={T('a.m1')} /><div id="a-dash" class="mt-4"></div></section>
+      <section id="stock" class="scroll-mt-20">
+        <div class="flex flex-wrap items-center gap-2">
+          <h2 class="mr-auto text-lg font-bold" set:html={T('a.m2')} />
+          <button type="button" id="a-down" class="btn btn-line !h-9 !px-3 text-sm" set:html={T('a.csv.down')} />
+          <label class="btn btn-line !h-9 !px-3 text-sm cursor-pointer"><Fragment set:html={T('a.csv.up')} /><input id="a-up" type="file" accept=".csv,text/csv" class="hidden" /></label>
+        </div>
+        <p class="mt-2 text-xs leading-relaxed text-neutral-500" set:html={T('a.stock.note')} />
+        <div id="a-stock" class="mt-3 overflow-x-auto"></div>
+      </section>
+      <section id="restock" class="scroll-mt-20"><h2 class="text-lg font-bold" set:html={T('a.m3')} /><div id="a-restock" class="mt-3"></div></section>
+    </div>
+  </div>
+
+  <script>
+    import { products, site, T, state, save, reset, toast, paint, dual, esc } from '../lib/app.js';
+    import { status, stocks, total, lowAt, sortProducts, statusChip, fmtDate } from '../lib/logic.js';
+    import * as app from '../lib/app.js';
+    const $ = (s) => document.querySelector(s);
+    const st = () => app.state;
+    const n = (v) => Number(v).toLocaleString('en-US');
+    const name = (p) => dual(p.name_ko, p.name_en);
+    const notify = (p) => ({ kr: p.notify_kr + (st().notify[p.id] || 0), intl: p.notify_intl });
+
+    function dash() {
+      const s = st();
+      const oKr = products.reduce((a, p) => a + p.today_orders_kr, 0), oIn = products.reduce((a, p) => a + p.today_orders_intl, 0);
+      const pre = products.filter((p) => p.sale_type === 'preorder');
+      const low = products.filter((p) => status(p, s) === 'low').length;
+      const nt = products.map(notify), nKr = nt.reduce((a, x) => a + x.kr, 0), nIn = nt.reduce((a, x) => a + x.intl, 0);
+      const wait = products.filter((p) => status(p, s) === 'soldout').reduce((a, p) => a + notify(p).kr + notify(p).intl, 0);
+      const cb = site.clicks.banner + s.clicks.banner, cp = site.clicks.poster + s.clicks.poster;
+      const series = [...site.orders_6d, oKr + oIn], mx = Math.max(...series), mn = Math.min(...series);
+      const pts = series.map((v, i) => `${(i * 100) / 6},${28 - ((v - mn) / (mx - mn || 1)) * 24}`).join(' ');
+      const steps = (p) => [['d.t1', p.preorder_start], ['d.t2', p.preorder_end], ['d.t3', p.release], ['d.t4', p.ship_start]]
+        .map(([k, d]) => `<span class="${d.slice(0, 10) <= site.today ? 'text-neutral-400' : ''}">${T(k)} ${fmtDate(d).slice(5)}${d.slice(0, 10) <= site.today ? ` (${T('d.done')})` : ''}</span>`).join('<span class="text-neutral-300"> → </span>');
+      const tile = (k, v, sub = '', extra = '') => `<div class="rounded-lg border border-neutral-200 p-4" ${extra}><p class="text-xs text-neutral-500">${T(k)}</p><p class="mt-1 text-2xl font-black tabular-nums">${v}</p><p class="mt-1 text-[11px] text-neutral-500">${sub || '&nbsp;'}</p></div>`;
+      $('#a-dash').innerHTML = `
+        <div class="rounded-lg bg-neutral-50 p-4 text-[13px]"><p class="text-xs font-bold text-neutral-500">${T('a.sched')}</p>
+          ${pre.map((p) => `<a href="#stock" class="mt-2 block"><b>${name(p)}</b><br><span class="text-xs">${steps(p)}</span></a>`).join('')}</div>
+        <p class="mt-3 rounded-lg border border-rose-200 bg-rose-50 px-4 py-2.5 text-[13px] font-bold text-rose-700">${T('a.pending')} · <a href="#stock" class="underline">${T('a.pending.low', { n: low })}</a> · <a href="#restock" class="underline">${T('a.pending.notify', { n: n(wait) })}</a></p>
+        <div class="mt-3 grid grid-cols-2 gap-3 md:grid-cols-3 xl:grid-cols-5">
+          ${tile('a.k1', n(oKr + oIn), T('a.split', { k: n(oKr), i: n(oIn) }))}
+          ${tile('a.k2', `${n(pre.reduce((a, p) => a + p.preorder_count, 0))} <span class="text-base font-bold text-neutral-400">/ ${n(pre.reduce((a, p) => a + p.order_qty, 0))}</span>`)}
+          ${tile('a.k3', low)}
+          ${tile('a.k4', n(nKr + nIn), T('a.split', { k: n(nKr), i: n(nIn) }))}
+          ${tile('a.k5', n(cb + cp), T('a.k5d', { b: n(cb), p: n(cp) }))}
+        </div>
+        <div class="mt-3 rounded-lg border border-neutral-200 p-4"><p class="text-xs text-neutral-500">${T('a.7d')}</p>
+          <svg viewBox="-2 0 104 32" preserveAspectRatio="none" class="mt-2 h-16 w-full"><polyline points="${pts}" fill="none" stroke="#111" stroke-width="1.5" vector-effect="non-scaling-stroke"/></svg></div>`;
+    }
+
+    function stockTable() {
+      const s = st(), list = sortProducts(products, s);
+      $('#a-stock').innerHTML = `<table class="adm"><thead><tr><th>${T('a.c.order')}</th><th>${T('a.c.product')}</th><th>${T('a.c.option')}</th><th>${T('a.c.stock')}</th><th>${T('a.c.low')}</th><th>${T('a.c.status')}</th></tr></thead><tbody>${list.map((p, i) =>
+        p.options.map((o, j) => `<tr>${j ? '<td></td><td></td>' : `<td class="whitespace-nowrap"><button type="button" data-mv="-1" data-id="${p.id}" class="h-8 w-8 rounded border border-neutral-300" ${i ? '' : 'disabled'}>↑</button> <button type="button" data-mv="1" data-id="${p.id}" class="h-8 w-8 rounded border border-neutral-300" ${i < list.length - 1 ? '' : 'disabled'}>↓</button></td><td class="min-w-[180px]"><b>${name(p)}</b><br><span class="text-xs text-neutral-500">${esc(p.tab)}</span></td>`}
+          <td>${esc(o) || '-'}</td><td><input type="number" min="0" inputmode="numeric" data-stock="${p.id}" data-j="${j}" value="${stocks(p, s)[j]}"></td>
+          ${j ? '<td></td><td></td>' : `<td><input type="number" min="0" inputmode="numeric" data-low="${p.id}" value="${lowAt(p, s)}"></td><td>${statusChip(status(p, s)) || '<span class="text-xs text-neutral-500">ON SALE</span>'}</td>`}</tr>`).join('')).join('')}</tbody></table>`;
+    }
+
+    function restock() {
+      const s = st(), r = site.restock_conversion;
+      const list = products.filter((p) => status(p, s) === 'soldout' || notify(p).kr + notify(p).intl > 0);
+      $('#a-restock').innerHTML = `<p class="text-xs leading-relaxed text-neutral-500">${T('a.notify.note', { r: Math.round(r * 100) })}</p>
+        <div class="mt-3 overflow-x-auto"><table class="adm"><thead><tr><th>${T('a.c.product')}</th><th>${T('a.c.req')}</th><th>${T('a.c.kr')}</th><th>${T('a.c.intl')}</th><th>${T('a.c.cur')}</th><th>${T('a.c.ref')}</th><th>${T('a.c.memo')}</th><th></th></tr></thead><tbody>${list.map((p) => {
+          const x = notify(p), t = x.kr + x.intl;
+          return `<tr><td class="min-w-[180px]"><b>${name(p)}</b></td><td class="tabular-nums font-bold">${n(t)}</td><td class="tabular-nums">${n(x.kr)}</td><td class="tabular-nums">${n(x.intl)}</td><td class="tabular-nums">${n(total(p, s))}</td><td class="tabular-nums font-bold">${n(Math.ceil((t * r) / 10) * 10)}</td>
+          <td><input type="text" data-memo="${p.id}" value="${esc(s.memo[p.id] || '')}" style="width:160px"></td><td><button type="button" data-send="${p.id}" class="btn btn-ink !h-9 !px-3 text-xs whitespace-nowrap">${T('a.c.send')}</button></td></tr>`;
+        }).join('') || `<tr><td colspan="8" class="text-neutral-500">-</td></tr>`}</tbody></table></div>`;
+    }
+
+    const render = () => { dash(); stockTable(); restock(); };
+    const commit = () => { save(); paint(); dash(); restock(); };
+    render();
+
+    document.addEventListener('change', (e) => {
+      const el = e.target, s = st();
+      if (el.dataset.stock) { const p = products.find((x) => x.id === el.dataset.stock); const a = [...stocks(p, s)]; a[el.dataset.j] = Math.max(0, Math.floor(Number(el.value) || 0)); s.stock[p.id] = a; commit(); setTimeout(stockTable); }
+      if (el.dataset.low) { s.low[el.dataset.low] = Math.max(0, Math.floor(Number(el.value) || 0)); commit(); setTimeout(stockTable); }
+      if (el.dataset.memo) { s.memo[el.dataset.memo] = el.value; save(); }
+      if (el.id === 'a-up' && el.files[0]) el.files[0].text().then((txt) => {
+        let ok = 0;
+        txt.replace(/^﻿/, '').split(/\r?\n/).slice(1).forEach((line) => {
+          const [id, opt, v] = line.split(',').map((x) => (x || '').trim().replace(/^"|"$/g, ''));
+          const p = products.find((x) => x.id === id); if (!p || v === '' || isNaN(v)) return;
+          const j = Math.max(0, p.options.indexOf(opt)); const a = [...stocks(p, s)]; a[j] = Math.max(0, Math.floor(Number(v))); s.stock[p.id] = a; ok++;
+        });
+        el.value = ''; if (ok) { commit(); setTimeout(stockTable); toast(T('a.csv.ok')); } else toast(T('a.csv.err'));
+      });
+    });
+    document.addEventListener('click', (e) => {
+      const el = e.target.closest('[data-mv],[data-send],#a-reset,#a-down'); if (!el) return;
+      const s = st();
+      if (el.dataset.mv) {
+        const ids = sortProducts(products, s).map((p) => p.id), i = ids.indexOf(el.dataset.id), k = i + Number(el.dataset.mv);
+        [ids[i], ids[k]] = [ids[k], ids[i]]; s.order = ids; commit(); setTimeout(stockTable);
+      }
+      if (el.dataset.send) { const p = products.find((x) => x.id === el.dataset.send); toast(T(total(p, s) > 0 ? 'a.send.toast' : 'a.send.need')); }
+      if (el.id === 'a-reset') { reset(); paint(); render(); }
+      if (el.id === 'a-down') {
+        const rows = ['id,option,stock', ...products.flatMap((p) => p.options.map((o, j) => `${p.id},${o},${stocks(p, s)[j]}`))];
+        const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob(['﻿' + rows.join('\n')], { type: 'text/csv' })); a.download = 'stock.csv'; a.click();
+      }
+    });
+  </script>
+</Base>

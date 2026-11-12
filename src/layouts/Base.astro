@@ -1,0 +1,111 @@
+---
+import '../styles/global.css';
+import RegionBar from '../components/RegionBar.astro';
+import { products, copy, site } from '../lib/data.js';
+import { makeT } from '../lib/logic.js';
+const { title = 'KQ MD SHOP', overlay = false, region = true } = Astro.props;
+const T = makeT(copy);
+const data = JSON.stringify({ products, copy, site }).replace(/</g, '\\u003c');
+const cols = [
+  ['f.support', [['f.notice', '/help/#notice'], ['f.faq', '/help/#faq'], ['f.inquiry', '/help/#inquiry'], ['f.cs', '/help/#cs']]],
+  ['f.guide', [['f.shipping', '/help/#shipping'], ['f.exchange', '/help/#exchange'], ['f.address', '/help/#address'], ['f.track', '/help/#track'], ['f.retailers', '/retailers/']]],
+  ['f.policy', [['f.terms', '/help/#terms'], ['f.privacy', '/help/#privacy'], ['f.youth', '/help/#youth'], ['f.cookie', '/help/#cookie']]],
+];
+const ic = 'w-6 h-6 fill-none stroke-current';
+---
+<!doctype html>
+<html lang="ko" data-region="KR" data-country="KR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow, noarchive" />
+    <title>{title}</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+    <script is:inline>
+      (function () {
+        var h = document.documentElement, g = function (k) { try { return localStorage.getItem(k); } catch (e) { return null; } };
+        var tz = ''; try { tz = Intl.DateTimeFormat().resolvedOptions().timeZone || ''; } catch (e) {}
+        var map = { 'Asia/Seoul': 'KR', 'Asia/Tokyo': 'JP', 'Asia/Shanghai': 'CN', 'Europe/London': 'GB', 'Europe/Berlin': 'DE', 'Europe/Paris': 'FR', 'Europe/Madrid': 'ES', 'America/Mexico_City': 'MX' };
+        var c = g('kq_country') || map[tz] || (tz.indexOf('America/') === 0 ? 'US' : tz.indexOf('Australia/') === 0 ? 'AU' : 'KR');
+        var l = g('kq_lang') || ((navigator.language || 'ko').indexOf('ko') === 0 ? 'ko' : 'en');
+        h.lang = l; h.dataset.country = c; h.dataset.region = c === 'KR' ? 'KR' : 'INTL';
+      })();
+    </script>
+  </head>
+  <body class="font-sans antialiased">
+    <header id="hdr" class:list={['fixed inset-x-0 top-0 z-40', !overlay && 'is-solid']} data-overlay={overlay ? '1' : undefined}>
+      <div class="wrap flex h-14 items-center gap-4">
+        <a href="/" class="text-xl font-black tracking-tight">KQ<span class="hidden sm:inline"> SHOP</span></a>
+        <div class="relative">
+          <button type="button" data-open="dd-artists" class="text-[15px] font-bold"><Fragment set:html={T('nav.artists')} /> ▾</button>
+          <div id="dd-artists" class="dd hidden absolute left-0 top-full mt-2 w-48 rounded-lg border border-neutral-200 bg-white p-2 shadow-xl">
+            {site.artists.map((a) => a.active
+              ? <a href={`/artist/${a.id}/`} class="block rounded px-3 py-2 font-bold hover:bg-neutral-100">{a.name}</a>
+              : <span class="block cursor-default select-none px-3 py-2 text-neutral-400">{a.name} <Fragment set:html={T('region.demo')} /></span>)}
+          </div>
+        </div>
+        <nav class="ml-auto flex items-center gap-3">
+          <a href="/help/#track" aria-label="My page"><svg class={ic} viewBox="0 0 24 24" stroke-width="1.6"><circle cx="12" cy="8" r="4" /><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7" /></svg></a>
+          <button type="button" data-act="cartview" class="relative" aria-label="Cart">
+            <svg class={ic} viewBox="0 0 24 24" stroke-width="1.6"><path d="M5 8h14l-1.2 12H6.2L5 8z" /><path d="M9 8V6a3 3 0 0 1 6 0v2" /></svg>
+            <span data-cart class="hidden absolute -right-2 -top-1 min-w-[18px] rounded-full bg-rose-600 px-1 text-center text-[11px] font-bold leading-[18px] text-white">0</span>
+          </button>
+          <button type="button" data-open="menu" aria-label="Menu"><svg class={ic} viewBox="0 0 24 24" stroke-width="1.6"><path d="M3 6h18M3 12h18M3 18h18" /></svg></button>
+        </nav>
+      </div>
+    </header>
+
+    <div id="menu" class="hidden fixed inset-0 z-50">
+      <button type="button" data-open="menu" class="absolute inset-0 bg-black/40" aria-label="Close"></button>
+      <aside class="absolute right-0 top-0 h-full w-[min(88vw,360px)] overflow-y-auto bg-white p-6">
+        <div class="flex items-center justify-between">
+          <b class="text-lg" set:html={T('nav.menu')} />
+          <button type="button" data-open="menu" class="text-2xl leading-none" aria-label="Close">×</button>
+        </div>
+        <label class="mt-5 block text-xs text-neutral-500" for="q" set:html={T('nav.search')} />
+        <input id="q" type="search" autocomplete="off" class="mt-1 h-11 w-full rounded border border-neutral-300 px-3" />
+        <div id="q-out" class="text-sm"></div>
+        <div class="mt-6 flex flex-col text-[17px] font-bold">
+          <a class="border-b border-neutral-100 py-3" href="/artist/ateez/" set:html={T('nav.shop')} />
+          <a class="border-b border-neutral-100 py-3" href="/scenario/" set:html={T('nav.scenario')} />
+          <a class="border-b border-neutral-100 py-3" href="/admin/" set:html={T('nav.admin')} />
+          <a class="border-b border-neutral-100 py-3" href="/help/#track" set:html={T('nav.mypage')} />
+          <a class="border-b border-neutral-100 py-3" href="/help/#faq" set:html={T('f.faq')} />
+          <a class="border-b border-neutral-100 py-3" href="/retailers/" set:html={T('f.retailers')} />
+        </div>
+      </aside>
+    </div>
+
+    <main class:list={[!overlay && 'pt-14']}>
+      {region && !overlay && <RegionBar />}
+      <slot />
+    </main>
+
+    <footer class="mt-24 border-t border-neutral-200 bg-neutral-50 text-[13px] text-neutral-600">
+      <div class="wrap grid gap-x-8 py-10 md:grid-cols-4">
+        {cols.map(([h, links]) => (
+          <details open class="border-b border-neutral-200 py-3 md:border-0 md:py-0">
+            <summary class="list-none font-bold text-neutral-900 md:pointer-events-none" set:html={T(h)} />
+            <ul class="mt-3 space-y-2">{links.map(([k, href]) => <li><a class="hover:underline" href={href} set:html={T(k)} /></li>)}</ul>
+          </details>
+        ))}
+        <details open class="py-3 md:py-0">
+          <summary class="list-none font-bold text-neutral-900 md:pointer-events-none" set:html={T('f.biz')} />
+          <p class="mt-3 leading-relaxed" set:html={T('f.bizinfo')} />
+          <p class="mt-2" set:html={T('d.cs')} />
+        </details>
+      </div>
+      <div class="wrap flex flex-wrap items-center gap-x-4 gap-y-2 border-t border-neutral-200 py-6 text-xs">
+        <span class="rounded border border-neutral-400 px-2 py-1 font-bold text-neutral-700" set:html={T('f.badge')} />
+        <a class="underline" href="/scenario/" set:html={T('nav.scenario')} />
+        <a class="underline" href="/admin/" set:html={T('nav.admin')} />
+        <span set:html={T('f.credit')} />
+        <p class="w-full text-neutral-500" set:html={T('footer.notice')} />
+      </div>
+    </footer>
+
+    <div id="toast" role="status" class="pointer-events-none fixed inset-x-4 bottom-24 z-[60] mx-auto max-w-md rounded-lg bg-neutral-900 px-4 py-3 text-center text-sm text-white opacity-0 shadow-xl transition-opacity"></div>
+    <script type="application/json" id="__data" set:html={data}></script>
+    <script>import '../lib/app.js';</script>
+  </body>
+</html>

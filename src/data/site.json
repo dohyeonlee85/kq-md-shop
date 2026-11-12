@@ -1,0 +1,267 @@
+{
+ "today": "2026-12-15",
+ "shipping_from_usd": 18,
+ "restock_conversion": 0.35,
+ "orders_6d": [
+  212,
+  198,
+  240,
+  225,
+  251,
+  236
+ ],
+ "clicks": {
+  "banner": 2310,
+  "poster": 860
+ },
+ "countries": [
+  {
+   "code": "KR",
+   "ko": "대한민국",
+   "en": "Korea",
+   "tz": "Asia/Seoul"
+  },
+  {
+   "code": "US",
+   "ko": "미국",
+   "en": "United States",
+   "tz": "America/New_York"
+  },
+  {
+   "code": "JP",
+   "ko": "일본",
+   "en": "Japan",
+   "tz": "Asia/Tokyo"
+  },
+  {
+   "code": "CN",
+   "ko": "중국",
+   "en": "China",
+   "tz": "Asia/Shanghai"
+  },
+  {
+   "code": "GB",
+   "ko": "영국",
+   "en": "United Kingdom",
+   "tz": "Europe/London"
+  },
+  {
+   "code": "DE",
+   "ko": "독일",
+   "en": "Germany",
+   "tz": "Europe/Berlin"
+  },
+  {
+   "code": "FR",
+   "ko": "프랑스",
+   "en": "France",
+   "tz": "Europe/Paris"
+  },
+  {
+   "code": "ES",
+   "ko": "스페인",
+   "en": "Spain",
+   "tz": "Europe/Madrid"
+  },
+  {
+   "code": "MX",
+   "ko": "멕시코",
+   "en": "Mexico",
+   "tz": "America/Mexico_City"
+  },
+  {
+   "code": "AU",
+   "ko": "호주",
+   "en": "Australia",
+   "tz": "Australia/Sydney"
+  }
+ ],
+ "artists": [
+  {
+   "id": "ateez",
+   "name": "ATEEZ",
+   "active": true,
+   "album_ko": "[가안 앨범명]",
+   "album_en": "[Draft Album Title]",
+   "intro_ko": "가안 소개 문구입니다. 공식 앨범 소개 1줄로 교체됩니다.",
+   "intro_en": "Draft intro line. To be replaced with the official album introduction.",
+   "feature": "ateez_01",
+   "first_tab": "MD"
+  },
+  {
+   "id": "xikers",
+   "name": "xikers",
+   "active": false
+  }
+ ],
+ "tabs": [
+  "ALBUM",
+  "MD",
+  "TOUR MD",
+  "PHOTOBOOK",
+  "SEASON'S GREETINGS",
+  "MEMBERSHIP"
+ ],
+ "banners": [
+  {
+   "img": "ateez_banner1",
+   "label": "comeback",
+   "title_ko": "ATEEZ 정규 앨범 예약 판매",
+   "title_en": "ATEEZ Full Album Pre-order",
+   "cta_ko": "지금 예약",
+   "cta_en": "Pre-order now",
+   "href": "/product/ateez_01/",
+   "dday": "ateez_01"
+  },
+  {
+   "img": "ateez_banner2",
+   "label": "new md",
+   "title_ko": "새 MD 제안 상품 공개",
+   "title_en": "New MD Lineup",
+   "cta_ko": "상품 보기",
+   "cta_en": "View items",
+   "href": "/artist/ateez/?tab=MD"
+  },
+  {
+   "img": "ateez_banner3",
+   "label": "tour md",
+   "title_ko": "투어 MD 온라인 판매",
+   "title_en": "Tour MD Online Sale",
+   "cta_ko": "상품 보기",
+   "cta_en": "View items",
+   "href": "/artist/ateez/?tab=TOUR%20MD"
+  }
+ ],
+ "chips": [
+  {
+   "ko": "ATEEZ 정규 앨범 예약",
+   "en": "ATEEZ Full Album Pre-order",
+   "href": "/product/ateez_01/"
+  },
+  {
+   "ko": "2027 시즌 그리팅",
+   "en": "2027 Season's Greetings",
+   "href": "/product/ateez_04/"
+  },
+  {
+   "ko": "투어 MD",
+   "en": "Tour MD",
+   "href": "/artist/ateez/?tab=TOUR%20MD"
+  }
+ ],
+ "retailers": [
+  {
+   "c_ko": "대한민국",
+   "c_en": "Korea",
+   "name": "KQ MD SHOP (예시)",
+   "t_ko": "공식 온라인 스토어",
+   "t_en": "Official online store"
+  },
+  {
+   "c_ko": "미국",
+   "c_en": "United States",
+   "name": "Sample Store US (예시)",
+   "t_ko": "현지 공식 판매처",
+   "t_en": "Local official retailer"
+  },
+  {
+   "c_ko": "일본",
+   "c_en": "Japan",
+   "name": "Sample Store JP (예시)",
+   "t_ko": "현지 공식 판매처",
+   "t_en": "Local official retailer"
+  },
+  {
+   "c_ko": "유럽",
+   "c_en": "Europe",
+   "name": "Sample Store EU (예시)",
+   "t_ko": "현지 공식 판매처",
+   "t_en": "Local official retailer"
+  }
+ ],
+ "scenarios": [
+  {
+   "title_ko": "국내 팬 · 앨범 예약",
+   "title_en": "Fan in Korea · Album pre-order",
+   "steps": [
+    {
+     "img": "s1_1",
+     "ko": "메인 배너의 예약 마감 D-day로 마감일을 먼저 확인합니다.",
+     "en": "The D-day label on the main banner shows the deadline first."
+    },
+    {
+     "img": "s1_2",
+     "ko": "아티스트 샵은 필터 없이 예약 마감이 가까운 순서로 진열됩니다.",
+     "en": "The artist shop lists items by closest pre-order deadline, without filters."
+    },
+    {
+     "img": "s1_3",
+     "ko": "상세의 판매 일정 4단계로 특전 마감 시각과 발송 시작일을 확인합니다.",
+     "en": "The four-step schedule shows the bonus deadline and shipping start."
+    },
+    {
+     "img": "s1_4",
+     "ko": "랜덤 구성은 글자 1줄(종수·수량·확률)로 정확히 안내합니다.",
+     "en": "Random items are described in one line: designs, quantity, and odds."
+    },
+    {
+     "img": "s1_5",
+     "ko": "상태에 맞는 구매 버튼 1개만 보여 선택을 단순하게 합니다.",
+     "en": "Only one purchase button matching the item status is shown."
+    }
+   ]
+  },
+  {
+   "title_ko": "해외 팬 · 배송비 확인 후 주문",
+   "title_en": "Overseas fan · Checking shipping before ordering",
+   "steps": [
+    {
+     "img": "s2_1",
+     "ko": "배송 국가를 바꾸면 가격이 USD로, 안내가 영어로 전환됩니다.",
+     "en": "Changing the shipping country switches prices to USD and guidance to English."
+    },
+    {
+     "img": "s2_2",
+     "ko": "국가 줄에서 배송비 시작 금액과 관세 구매자 부담을 먼저 알립니다.",
+     "en": "The country bar states the starting shipping fee and that duties are paid by the buyer."
+    },
+    {
+     "img": "s2_3",
+     "ko": "해외 배송이 불가한 상품에만 \"국내 전용\" 딱지가 표시됩니다.",
+     "en": "Only items that cannot ship overseas show the \"Korea only\" badge."
+    },
+    {
+     "img": "s2_4",
+     "ko": "특전 마감 시각은 현지 시각으로 1줄 더 표시됩니다.",
+     "en": "The bonus deadline is also shown in local time."
+    }
+   ]
+  },
+  {
+   "title_ko": "운영자 · 재입고 알림으로 발주 판단",
+   "title_en": "Operator · Reorder decision from restock alerts",
+   "steps": [
+    {
+     "img": "s3_1",
+     "ko": "품절 상품의 구매 버튼 자리는 [재입고 알림]으로 바뀝니다.",
+     "en": "On sold-out items, the purchase button becomes [Notify me]."
+    },
+    {
+     "img": "s3_2",
+     "ko": "관리자 화면에서 신청 수를 국내·해외로 나누어 확인합니다.",
+     "en": "The admin page shows requests split by Korea and overseas."
+    },
+    {
+     "img": "s3_3",
+     "ko": "신청 수와 전환율(추정)로 발주 참고값을 계산합니다.",
+     "en": "A suggested reorder quantity is calculated from requests and an estimated conversion rate."
+    },
+    {
+     "img": "s3_4",
+     "ko": "재고를 입력하면 샵의 딱지와 구매 버튼이 자동으로 바뀝니다.",
+     "en": "Entering stock automatically updates badges and purchase buttons in the shop."
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,45 @@
+---
+import Base from '../../layouts/Base.astro';
+import Poster from '../../components/Poster.astro';
+import { products, copy, site } from '../../lib/data.js';
+import { makeT, gridHTML } from '../../lib/logic.js';
+export function getStaticPaths() {
+  return site.artists.filter((a) => a.active).map((a) => ({ params: { artist: a.id }, props: { artist: a } }));
+}
+const { artist } = Astro.props;
+const T = makeT(copy);
+const list = products.filter((p) => p.artist === artist.id);
+const tabs = site.tabs.filter((t) => list.some((p) => p.tab === t)); // 빈 탭 자동 숨김
+---
+<Base title={`${artist.name} | KQ MD SHOP`}>
+  <Poster artist={artist} full />
+  <!-- 탭: 영어 고정, 헤더 아래 고정, 좌우 밀기 -->
+  <div class="sticky top-14 z-20 border-b border-neutral-200 bg-white">
+    <div class="wrap tabs" role="tablist" id="tabs" data-first={artist.first_tab}>
+      {tabs.map((t) => <button type="button" role="tab" class="tab" data-t={t} aria-selected="false">{t}</button>)}
+    </div>
+  </div>
+  <section class="wrap mt-6 min-h-[50vh]">
+    <div class="grid-products" id="grid" data-grid={artist.id} set:html={gridHTML(list, null, T, site.today)} />
+  </section>
+  <div class="mt-16 text-center"><button type="button" data-act="top" class="btn btn-line !h-11">↑ <Fragment set:html={T('shop.top')} /></button></div>
+
+  <script>
+    import '../../lib/app.js';
+    const tabs = document.getElementById('tabs');
+    const all = [...tabs.querySelectorAll('.tab')];
+    const want = new URLSearchParams(location.search).get('tab');
+    let cur = (all.find((b) => b.dataset.t === want) || all.find((b) => b.dataset.t === tabs.dataset.first) || all[0]).dataset.t;
+    function show() {
+      all.forEach((b) => b.setAttribute('aria-selected', String(b.dataset.t === cur)));
+      document.querySelectorAll('#grid .card').forEach((c) => c.classList.toggle('hidden', c.dataset.tab !== cur));
+    }
+    tabs.addEventListener('click', (e) => {
+      const b = e.target.closest('.tab'); if (!b) return;
+      cur = b.dataset.t; history.replaceState(null, '', `?tab=${encodeURIComponent(cur)}`); show();
+      b.scrollIntoView({ inline: 'center', block: 'nearest', behavior: 'smooth' });
+    });
+    document.addEventListener('kq:paint', show);
+    show();
+  </script>
+</Base>
