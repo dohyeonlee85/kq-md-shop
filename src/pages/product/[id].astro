@@ -92,7 +92,7 @@ const info = [
   <!-- 스크롤 시 하단 고정 구매 버튼 -->
   <div id="sticky" class="fixed inset-x-0 bottom-0 z-30 translate-y-full border-t border-neutral-200 bg-white p-3 transition-transform">
     <div class="mx-auto flex max-w-3xl items-center gap-3">
-      <p class="hidden flex-none text-lg font-black tabular-nums sm:block" set:html={price(p)} />
+      <p class="flex-none text-lg font-black tabular-nums" set:html={price(p)} />
       <div class="flex-1" id="sticky-btn"></div>
     </div>
   </div>

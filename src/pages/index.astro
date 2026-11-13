@@ -18,7 +18,7 @@ const banners = site.banners.map((b) => {
     <div class="swiper-wrapper">
       {banners.map((b, i) => (
         <a href={b.href} data-click="banner" data-banner={i} class="swiper-slide relative block">
-          <div class="ph dark absolute inset-0"><span>{b.img}.jpg</span>{b.src && <img src={b.src} alt="" loading={i ? 'lazy' : 'eager'} />}</div>
+          <div class="ph dark absolute inset-0">{!b.src && <span>{b.img}.jpg</span>}{b.src &&<img src={b.src} alt="" loading={i ? 'lazy' : 'eager'} />}</div>
           <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent"></div>
           <div class="wrap absolute inset-x-0 bottom-0 pb-12 md:pb-16">
             <p class="text-xs tracking-[.2em] lowercase text-white/80">{b.label}{b.d !== null && <span class="ml-2 rounded-sm bg-white px-1.5 py-0.5 font-bold tracking-normal text-black" set:html={T('s.dday', { n: b.d })} />}</p>
@@ -29,7 +29,7 @@ const banners = site.banners.map((b) => {
       ))}
     </div>
     <div class="swiper-pagination !bottom-5"></div>
-    <button type="button" id="banner-pause" class="absolute bottom-3 right-4 z-10 h-9 w-9 rounded-full bg-black/40 text-sm md:right-8" aria-label="Pause">❚❚</button>
+    <button type="button" id="banner-pause" class="absolute bottom-3 right-4 z-10 h-9 w-9 rounded-full bg-black/40 text-sm md:right-8" aria-label="일시정지 / Pause" title="일시정지 / Pause">❚❚</button>
   </section>
 
   {artists.map((a) => (
